@@ -1,0 +1,9 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Source: https://github.com/brucemack/microlink2
+Upstream-Name: ASL Parrot
+
+Files: *
+Copyright: 2025 Bruce MacKinnon <bruce@mackinnon.com>
+License: GPL-3.0+
+ On Debian systems, the complete text of the GNU General Public License version 3
+ can be found in `/usr/share/common-licenses/GPL-3`.

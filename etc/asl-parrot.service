@@ -1,0 +1,21 @@
+# Install in: /lib/systemd/system/asl-parrot.service:
+[Unit]
+Description=ASL Parrot Service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=asl-parrot
+EnvironmentFile=/usr/etc/asl-parrot.env
+ExecStart=/usr/bin/asl-parrot
+WorkingDirectory=/usr/bin
+RestrictRealtime=off
+# Make the process real-time with high priority
+# The + requests higher privileges.
+ExecStartPost=+/bin/sh -c "/usr/bin/chrt --rr -p 50 $MAINPID"
+
+[Install]
+WantedBy=multi-user.target

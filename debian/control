@@ -1,0 +1,18 @@
+Source: asl-parrot
+Section: hamradio
+Priority: optional
+Maintainer:  Bruce MacKinnon <bruce@mackinnon.com>
+Build-Depends: cmake, debhelper-compat (= 13), libasound2-dev, libcurl4-gnutls-dev, adduser
+Standards-Version: 4.5.1
+Homepage: https://github.com/brucemack/microlink2
+Rules-Requires-Root: no
+Vcs-Git: https://github.com/brucemack/microlink2
+Vcs-Browser: https://github.com/brucemack/microlink2
+
+Package: asl-parrot
+Architecture: any
+Multi-Arch: foreign
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: ASL Parrot
+ An Ampersand server that provides audio diagnostics.
+ 

@@ -1,0 +1,15 @@
+#!/bin/sh
+set -e
+
+USER_NAME="asl-parrot"
+
+# Create user if it doesn't exist
+if ! getent passwd "${USER_NAME}" >/dev/null; then
+    adduser --system \
+        --no-create-home \
+        --disabled-password \
+        --gecos "ASL Parrot Application User" "${USER_NAME}"
+fi
+
+# Optional: Set permissions or ownership for directories/files if needed
+# chown -R "${USER_NAME}:${GROUP_NAME}" /var/lib/myapp
