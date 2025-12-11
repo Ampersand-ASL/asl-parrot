@@ -3,7 +3,7 @@
 Building ASL Parrot With Install
 --------------------------------
 
-    cd sw/ml2
+    cd asl-parrot
     mkdir build
     cd build
     cmake -DCMAKE_INSTALL_PREFIX=/tmp
@@ -16,8 +16,8 @@ Debian Package Notes
 Making the package for the asl-parrot:
 
     sudo apt install debmake debhelper
-    VERSION=1.1
-    cd microlink2/sw/ml2
+    VERSION=1.0
+    cd asl-parrot
     scripts/make-source-tar-parrot.sh
     cd /tmp
     tar -xzmf asl-parrot-$VERSION.tar.gz
