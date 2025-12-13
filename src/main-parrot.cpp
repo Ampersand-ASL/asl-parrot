@@ -15,14 +15,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 #include <stdio.h>
-#include <execinfo.h>
-#include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
+#ifdef _WIN32
+#else
+#include <execinfo.h>
+#include <signal.h>
 #include <sched.h>
 #include <linux/sched.h>
 #include <linux/sched/types.h>
 #include <sys/syscall.h> 
+#endif 
 
 #include <iostream>
 #include <cmath> 
@@ -31,10 +34,15 @@
 #include <curl/curl.h>
 
 #include "kc1fsz-tools/Log.h"
-#include "kc1fsz-tools/linux/LinuxPollTimer.h"
+//#include "kc1fsz-tools/linux/LinuxPollTimer.h"
 #include "kc1fsz-tools/linux/StdClock.h"
-#include "kc1fsz-tools/linux/MTLog.h"
 #include "kc1fsz-tools/fixedqueue.h"
+
+#ifdef _WIN32
+#include "kc1fsz-tools/win32/Win32MTLog.h"
+#else
+#include "kc1fsz-tools/linux/MTLog.h"
+#endif
 
 #include "LineIAX2.h"
 #include "MessageBus.h"
@@ -71,6 +79,7 @@ public:
     }
 };
 
+#ifndef _WIN32
 // A crash signal handler that displays stack information
 static void sigHandler(int sig) {
     void *array[32];
@@ -83,13 +92,18 @@ static void sigHandler(int sig) {
     signal(sig, SIG_DFL); 
     raise(sig);
 }
+#endif
 
 int main(int argc, const char** argv) {
 
+#ifndef _WIN32    
     pthread_setname_np(pthread_self(), "Parrot");
     signal(SIGSEGV, sigHandler);
-
     MTLog log;
+#else
+    Win32MTLog log;
+#endif
+
     log.info("KC1FSZ ASL Parrot");
     log.info("Powered by the Ampersand ASL Project https://github.com/Ampersand-ASL");
     log.info("Version %s", VERSION);
