@@ -1,5 +1,14 @@
 # Ampersand ASL Server 
 
+Environment Variables
+---------------------
+export AMP_NODE0_NUMBER=nnnnn
+export AMP_NODE0_PASSWORD=xxxxx
+export AMP_NODE0_MGR_PORT=5038
+export AMP_IAX_PROTO=IPV4
+export AMP_IAX_PORT=4569
+export AMP_ASL_REG_URL=https://register.allstarlink.org
+
 Building ASL Parrot With Install
 --------------------------------
 
