@@ -21,9 +21,10 @@
 #else
 #include <execinfo.h>
 #include <signal.h>
-#include <sched.h>
-#include <linux/sched.h>
-#include <linux/sched/types.h>
+//#include <sched.h>
+//#include <linux/sched.h>
+//#include <linux/sched/types.h>
+#include <pthread.h>
 #include <sys/syscall.h> 
 #endif 
 
@@ -97,7 +98,8 @@ static void sigHandler(int sig) {
 int main(int argc, const char** argv) {
 
 #ifndef _WIN32    
-    pthread_setname_np(pthread_self(), "Parrot");
+    //pthread_setname_np(pthread_self(), "Parrot");
+    pthread_setname_np("Parrot");
     signal(SIGSEGV, sigHandler);
     MTLog log;
 #else

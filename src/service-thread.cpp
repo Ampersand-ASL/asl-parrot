@@ -15,15 +15,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 #include <sched.h>
-#include <linux/sched.h>
-#include <linux/sched/types.h>
+//#include <linux/sched.h>
+//#include <linux/sched/types.h>
 #include <errno.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/syscall.h> 
-#include <alsa/asoundlib.h>
+//#include <alsa/asoundlib.h>
 #include <execinfo.h>
 #include <signal.h>
+#include <pthread.h>
 
 #include <iostream>
 #include <cmath> 
@@ -41,7 +42,8 @@ using namespace kc1fsz;
 
 void* service_thread(void* l) {
 
-    pthread_setname_np(pthread_self(), "SVC");
+    //pthread_setname_np(pthread_self(), "SVC");
+    pthread_setname_np("SVC");
 
     Log& log = *((Log*)l);
     log.info("Start serice_thread");
