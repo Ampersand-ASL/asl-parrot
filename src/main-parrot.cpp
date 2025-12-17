@@ -97,8 +97,7 @@ static void sigHandler(int sig) {
 int main(int argc, const char** argv) {
 
 #ifndef _WIN32    
-    //pthread_setname_np(pthread_self(), "Parrot");
-    pthread_setname_np("Parrot");
+    pthread_setname_np(pthread_self(), "Parrot");
     signal(SIGSEGV, sigHandler);
     MTLog log;
 #else
@@ -138,7 +137,7 @@ int main(int argc, const char** argv) {
     short addrFamily = getenv("AMP_IAX_PROTO") != 0 && 
         strcmp(getenv("AMP_IAX_PROTO"), "IPV6") == 0 ? AF_INET6 : AF_INET;
     // Open up the IAX2 network connection
-    iax2Channel0.open(addrFamily, atoi(getenv("AMP_IAX_PORT")), LOCAL_USER);
+    iax2Channel1.open(addrFamily, atoi(getenv("AMP_IAX_PORT")), LOCAL_USER);
 
     // Main loop        
     Runnable2* tasks2[] = { &iax2Channel1, &bridge10 };

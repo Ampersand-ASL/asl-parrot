@@ -1,3 +1,10 @@
+asl-parrot (1.1-1) UNRELEASED; urgency=low
+
+  * Significant rework to integrate new bridge architecture, also 
+    cleaned up issues with jitter buffer.
+
+ -- Bruce MacKinnon <bruce@mackinnon.com>  Wed, 17 Dec 2025 13:16:00 -0500
+
 asl-parrot (1.0-1) UNRELEASED; urgency=low
 
   * Initial release.

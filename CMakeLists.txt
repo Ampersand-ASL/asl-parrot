@@ -34,11 +34,10 @@ add_executable(asl-parrot
   amp-core/src/LineIAX2.cpp
   amp-core/src/IAX2FrameFull.cpp
   amp-core/src/IAX2Util.cpp
-  amp-core/src/MessageBus.cpp
   amp-core/src/RegisterTask.cpp
+  amp-core/src/StatsTask.cpp
   amp-core/src/ManagerTask.cpp
   amp-core/src/RetransmissionBufferStd.cpp
-  amp-core/src/NodeParrot.cpp
   amp-core/src/Transcoder_G711_ULAW.cpp
   amp-core/src/Transcoder_SLIN_48K.cpp
   amp-core/src/Transcoder_SLIN_16K.cpp
