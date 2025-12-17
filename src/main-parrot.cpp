@@ -46,18 +46,16 @@
 #endif
 
 #include "LineIAX2.h"
-#include "MessageBus.h"
-#include "RegisterTask.h"
 #include "ManagerTask.h"
 #include "EventLoop.h"
-#include "NodeParrot.h"
+#include "Bridge.h"
 
 #include "service-thread.h"
 
 using namespace std;
 using namespace kc1fsz;
 
-static const char* VERSION = "20251210.0";
+static const char* VERSION = "20251217.0";
 
 // TODO: NEED MORE RESEARCH ON THIS
 static const char* LOCAL_USER = "radio";
@@ -70,6 +68,7 @@ export AMP_NODE0_MGR_PORT=5039
 export AMP_IAX_PROTO=IPV4
 export AMP_IAX_PORT=4569
 export AMP_ASL_REG_URL=https://register.allstarlink.org
+export AMP_ASL_STAT_URL=http://stats.allstarlink.org/uhandler
 */
 
 // TEMPORARY: Accept all calls
@@ -127,36 +126,23 @@ int main(int argc, const char** argv) {
         return -1;
     }
 
-    // This goes from IAX2->Parrot
-    MessageBus bus0;
-    // This goes from Parrot->IAX2
-    MessageBus bus1;
-
+    amp::Bridge bridge10(log, clock, amp::BridgeCall::Mode::PARROT);
+    
     CallDestinationValidatorStd val;
     // IMPORTANT: The directed POKE feature is turned on here!
-    LineIAX2 iax2Channel0(log, clock, 1, bus0, &val, 0, false);
+    LineIAX2 iax2Channel1(log, clock, 1, bridge10, &val, 0, false);
     //iax2Channel0.setTrace(true);
-
-    NodeParrot parrot0(log, clock, bus1);
-
-    // Setup the patch panel - establish message flow between components
-    bus0.targetChannel = &parrot0;
-    bus1.targetChannel = &iax2Channel0;
+    bridge10.setSink(&iax2Channel1);
 
     // Determine the address family, defaulting to IPv4
     short addrFamily = getenv("AMP_IAX_PROTO") != 0 && 
         strcmp(getenv("AMP_IAX_PROTO"), "IPV6") == 0 ? AF_INET6 : AF_INET;
-    // Open up the nIAX2 network connection
+    // Open up the IAX2 network connection
     iax2Channel0.open(addrFamily, atoi(getenv("AMP_IAX_PORT")), LOCAL_USER);
 
     // Main loop        
-    const unsigned task2Count = 2;
-    Runnable2* tasks2[task2Count] = { &iax2Channel0, &parrot0 };
-    EventLoop::run(log, clock, 0, 0, tasks2, task2Count, nullptr, false);
-
-    iax2Channel0.close();
-    
-    log.info("Done");
+    Runnable2* tasks2[] = { &iax2Channel1, &bridge10 };
+    EventLoop::run(log, clock, 0, 0, tasks2, std::size(tasks2), nullptr, false);
 
     return 0;
 }

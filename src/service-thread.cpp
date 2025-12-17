@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/syscall.h> 
-//#include <alsa/asoundlib.h>
+
 #include <execinfo.h>
 #include <signal.h>
 #include <pthread.h>
@@ -42,20 +42,25 @@ using namespace kc1fsz;
 
 void* service_thread(void* l) {
 
-    //pthread_setname_np(pthread_self(), "SVC");
-    pthread_setname_np("SVC");
+    pthread_setname_np(pthread_self(), "SVC");
+    //pthread_setname_np("SVC");
 
     Log& log = *((Log*)l);
-    log.info("Start serice_thread");
+    log.info("Start service_thread");
     StdClock clock;
 
     RegisterTask registerTask(log, clock);
     registerTask.configure(getenv("AMP_ASL_REG_URL"), getenv("AMP_NODE0_NUMBER"), 
         getenv("AMP_NODE0_PASSWORD"), atoi(getenv("AMP_IAX_PORT")));
 
+    StatsTask statsTask(log, clock, "1.0.0");
+    statsTask.configure(getenv("AMP_ASL_STAT_URL"), getenv("AMP_NODE0_NUMBER"));
+
     // #### TODO: CLEAN UP
     // Sleep waiting to change real-time status
     sleep(10);
+
+    // All of this stuff lowers the priority of the service thread
 
     const pthread_t self_thread = pthread_self();
     int policy;
@@ -86,9 +91,8 @@ void* service_thread(void* l) {
     }
 
     // Main loop        
-    const unsigned task2Count = 1;
-    Runnable2* tasks2[task2Count] = { &registerTask };
-    EventLoop::run(log, clock, 0, 0, tasks2, task2Count);
+    Runnable2* tasks2[] = { &registerTask, &statsTask };
+    EventLoop::run(log, clock, 0, 0, tasks2, std::size(tasks2));
 
     return 0;
 }
