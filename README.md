@@ -8,6 +8,8 @@ export AMP_NODE0_MGR_PORT=5038
 export AMP_IAX_PROTO=IPV4
 export AMP_IAX_PORT=4569
 export AMP_ASL_REG_URL=https://register.allstarlink.org
+export AMP_ASL_STAT_URL=http://stats.allstarlink.org/uhandler
+export AMP_ASL_DNS_BASE=nodes.allstarlink.org
 
 Building ASL Parrot With Install
 --------------------------------
@@ -24,8 +26,9 @@ Debian Package Notes
 
 Making the package for the asl-parrot:
 
+    # Update the change log (new entries at top)
     sudo apt install debmake debhelper
-    VERSION=1.0
+    VERSION=1.1
     cd asl-parrot
     scripts/make-source-tar-parrot.sh
     cd /tmp
