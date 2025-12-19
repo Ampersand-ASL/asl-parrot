@@ -58,6 +58,16 @@ add_executable(asl-parrot
   itu-g711-codec/src/codec.cpp
   itu-g711-codec/src/Plc.cpp
   cmsis-dsp-mock/src/main.cpp
+  ed25519/src/add_scalar.c
+  ed25519/src/ge.c
+  ed25519/src/keypair.c
+  ed25519/src/seed.c
+  ed25519/src/sign.c
+  ed25519/src/fe.c
+  ed25519/src/key_exchange.c
+  ed25519/src/sc.c
+  ed25519/src/sha512.c
+  ed25519/src/verify.c
 )
 
 target_include_directories(asl-parrot PRIVATE src)
@@ -65,6 +75,7 @@ target_include_directories(asl-parrot PRIVATE include)
 target_include_directories(asl-parrot PRIVATE kc1fsz-tools-cpp/include)
 target_include_directories(asl-parrot PRIVATE itu-g711-codec/src)
 target_include_directories(asl-parrot PRIVATE cmsis-dsp-mock/include)
+target_include_directories(asl-parrot PRIVATE ed25519/src)
 target_include_directories(asl-parrot PRIVATE amp-core/include)
 # TODO: REMOVE
 target_include_directories(asl-parrot PRIVATE amp-core/src)
