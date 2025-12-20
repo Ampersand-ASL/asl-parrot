@@ -55,7 +55,7 @@
 using namespace std;
 using namespace kc1fsz;
 
-static const char* VERSION = "20251217.0";
+static const char* VERSION = "20251219.0";
 
 // TODO: NEED MORE RESEARCH ON THIS
 static const char* LOCAL_USER = "radio";
@@ -129,7 +129,8 @@ int main(int argc, const char** argv) {
     
     CallDestinationValidatorStd val;
     // IMPORTANT: The directed POKE feature is turned on here!
-    LineIAX2 iax2Channel1(log, clock, 1, bridge10, &val, 0, false);
+    LineIAX2 iax2Channel1(log, clock, 1, bridge10, &val, 0, false,
+        getenv("AMP_PRIVATE_KEY"));
     //iax2Channel0.setTrace(true);
     bridge10.setSink(&iax2Channel1);
 
