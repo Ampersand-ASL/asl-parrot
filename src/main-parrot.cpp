@@ -55,7 +55,7 @@
 using namespace std;
 using namespace kc1fsz;
 
-static const char* VERSION = "20251219.0";
+static const char* VERSION = "20251220.0";
 
 // TODO: NEED MORE RESEARCH ON THIS
 static const char* LOCAL_USER = "radio";
@@ -67,8 +67,10 @@ export AMP_NODE0_PASSWORD=xxxxx
 export AMP_NODE0_MGR_PORT=5039
 export AMP_IAX_PROTO=IPV4
 export AMP_IAX_PORT=4569
+export AMP_IAX_AUTHMODE=OPEN
 export AMP_ASL_REG_URL=https://register.allstarlink.org
 export AMP_ASL_STAT_URL=http://stats.allstarlink.org/uhandler
+export AMP_ASL_DNS_ROOT=allstarlink.org
 */
 
 // TEMPORARY: Accept all calls
@@ -129,9 +131,17 @@ int main(int argc, const char** argv) {
     
     CallDestinationValidatorStd val;
     // IMPORTANT: The directed POKE feature is turned on here!
-    LineIAX2 iax2Channel1(log, clock, 1, bridge10, &val, 0, false,
-        getenv("AMP_PRIVATE_KEY"));
+    LineIAX2 iax2Channel1(log, clock, 1, bridge10, &val, 0);
     //iax2Channel0.setTrace(true);
+    iax2Channel1.setPrivateKey(getenv("AMP_PRIVATE_KEY"));
+    if (getenv("AMP_IAX_AUTHMODE")) {
+        if (strcmp(getenv("AMP_IAX_AUTHMODE"), "OPEN") == 0) 
+            iax2Channel1.setAuthMode(LineIAX2::AuthMode::OPEN);
+        else if (strcmp(getenv("AMP_IAX_AUTHMODE"), "SOURCE_IP") == 0) 
+            iax2Channel1.setAuthMode(LineIAX2::AuthMode::SOURCE_IP);
+        else if (strcmp(getenv("AMP_IAX_AUTHMODE"), "CHALLENGE_ED25519") == 0) 
+            iax2Channel1.setAuthMode(LineIAX2::AuthMode::CHALLENGE_ED25519);
+    }
     bridge10.setSink(&iax2Channel1);
 
     // Determine the address family, defaulting to IPv4
