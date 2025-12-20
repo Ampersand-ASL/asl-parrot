@@ -134,6 +134,7 @@ int main(int argc, const char** argv) {
     LineIAX2 iax2Channel1(log, clock, 1, bridge10, &val, 0);
     //iax2Channel0.setTrace(true);
     iax2Channel1.setPrivateKey(getenv("AMP_PRIVATE_KEY"));
+    iax2Channel1.setDNSRoot(getenv("AMP_ASL_DNS_ROOT"));
     if (getenv("AMP_IAX_AUTHMODE")) {
         if (strcmp(getenv("AMP_IAX_AUTHMODE"), "OPEN") == 0) 
             iax2Channel1.setAuthMode(LineIAX2::AuthMode::OPEN);
