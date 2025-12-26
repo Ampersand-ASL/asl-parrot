@@ -49,6 +49,7 @@
 #include "ManagerTask.h"
 #include "EventLoop.h"
 #include "Bridge.h"
+#include "MultiRouter.h"
 
 #include "service-thread.h"
 
@@ -131,7 +132,7 @@ int main(int argc, const char** argv) {
     
     CallDestinationValidatorStd val;
     // IMPORTANT: The directed POKE feature is turned on here!
-    LineIAX2 iax2Channel1(log, clock, 1, bridge10, &val, 0);
+    LineIAX2 iax2Channel1(log, clock, 1, bridge10, &val, 0, 0);
     //iax2Channel0.setTrace(true);
     iax2Channel1.setPrivateKey(getenv("AMP_PRIVATE_KEY"));
     iax2Channel1.setDNSRoot(getenv("AMP_ASL_DNS_ROOT"));
