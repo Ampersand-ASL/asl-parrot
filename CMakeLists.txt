@@ -20,8 +20,23 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 23)
 add_compile_options(-fstack-protector-all -Wall -Wpedantic -g)
 
-# Set the default install prefix (e.g., /usr/local on Linux)
-#set(CMAKE_INSTALL_PREFIX "/tmp")
+# ----- Custom work needed to use  libpiper ----------------------------------
+
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}/include
+  COMMAND wget https://mackinnon.info/ampersand/releases/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}.tar.gz -O ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}.tar.gz
+  COMMAND ${CMAKE_COMMAND} -E tar xf ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}.tar.gz
+  COMMENT "Unpacking libpiper"
+  VERBATIM
+)
+add_custom_target(libpiper_untar DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}/include)
+
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/en_US-amy-low.onnx ${CMAKE_CURRENT_BINARY_DIR}/en_US-amy-low.onnx.json
+  COMMAND wget https://mackinnon.info/ampersand/releases/en_US-amy-low.onnx -O ${CMAKE_CURRENT_BINARY_DIR}/en_US-amy-low.onnx
+  COMMAND wget https://mackinnon.info/ampersand/releases/en_US-amy-low.onnx.json -O ${CMAKE_CURRENT_BINARY_DIR}/en_US-amy-low.onnx.json
+  COMMENT "Fetching voice"
+  VERBATIM
+)
+add_custom_target(piper_voice DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/en_US-amy-low.onnx ${CMAKE_CURRENT_BINARY_DIR}/en_US-amy-low.onnx.json)
 
 # ----- ASL Parrot (Network) --------------------------------------------------
 
@@ -68,6 +83,7 @@ add_executable(asl-parrot
   ed25519/src/sha512.c
   ed25519/src/verify.c
 )
+add_dependencies(asl-parrot libpiper_untar)
 
 target_include_directories(asl-parrot PRIVATE src)
 target_include_directories(asl-parrot PRIVATE include)
@@ -76,6 +92,8 @@ target_include_directories(asl-parrot PRIVATE itu-g711-codec/src)
 target_include_directories(asl-parrot PRIVATE cmsis-dsp-mock/include)
 target_include_directories(asl-parrot PRIVATE ed25519/src)
 target_include_directories(asl-parrot PRIVATE amp-core/include)
+# The untared libpiper
+target_include_directories(asl-parrot PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}/include)
 # TODO: REMOVE
 target_include_directories(asl-parrot PRIVATE amp-core/src)
 target_link_libraries(asl-parrot -lcurl)
@@ -84,5 +102,22 @@ target_link_libraries(asl-parrot -lcurl)
 install(TARGETS asl-parrot RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin COMPONENT asl-parrot)
 install(FILES etc/asl-parrot.env DESTINATION ${CMAKE_INSTALL_PREFIX}/etc COMPONENT asl-parrot)
 install(FILES etc/asl-parrot.service DESTINATION ${CMAKE_INSTALL_PREFIX}/etc COMPONENT asl-parrot)
-install(FILES media/greeting-8k.pcm DESTINATION ${CMAKE_INSTALL_PREFIX}/media COMPONENT asl-parrot)
-install(FILES media/playback-8k.pcm DESTINATION ${CMAKE_INSTALL_PREFIX}/media COMPONENT asl-parrot)
+install(DIRECTORY media DESTINATION ${CMAKE_INSTALL_PREFIX}/media COMPONENT asl-parrot)
+
+# ----- test-voice -----------------------------------------------------------
+
+add_executable(test-voice
+  src/demos/test-voice.cpp
+)
+add_dependencies(test-voice libpiper_untar)
+add_dependencies(test-voice piper_voice)
+
+target_include_directories(test-voice PRIVATE src)
+target_include_directories(test-voice PRIVATE include)
+# The untared libpiper
+target_include_directories(test-voice PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}/include)
+target_link_directories(test-voice PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR})
+target_link_directories(test-voice PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}/lib)
+target_link_libraries(test-voice -lpiper -lonnxruntime)
+
+
