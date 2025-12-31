@@ -57,6 +57,7 @@ add_executable(asl-parrot
   amp-core/src/Transcoder_SLIN_48K.cpp
   amp-core/src/Transcoder_SLIN_16K.cpp
   amp-core/src/Bridge.cpp
+  amp-core/src/Bridge2.cpp
   amp-core/src/BridgeCall.cpp
   amp-core/src/BridgeIn.cpp
   amp-core/src/BridgeOut.cpp
@@ -84,6 +85,7 @@ add_executable(asl-parrot
   ed25519/src/verify.c
 )
 add_dependencies(asl-parrot libpiper_untar)
+add_dependencies(asl-parrot piper_voice)
 
 target_include_directories(asl-parrot PRIVATE src)
 target_include_directories(asl-parrot PRIVATE include)
@@ -97,6 +99,9 @@ target_include_directories(asl-parrot PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/libpip
 # TODO: REMOVE
 target_include_directories(asl-parrot PRIVATE amp-core/src)
 target_link_libraries(asl-parrot -lcurl)
+target_link_directories(asl-parrot PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR})
+target_link_directories(asl-parrot PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}/lib)
+target_link_libraries(asl-parrot -lpiper -lonnxruntime)
 
 # Installation 
 install(TARGETS asl-parrot RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin COMPONENT asl-parrot)
@@ -106,7 +111,7 @@ install(DIRECTORY media DESTINATION ${CMAKE_INSTALL_PREFIX}/media COMPONENT asl-
 
 # ----- test-voice -----------------------------------------------------------
 
-add_executable(test-voice
+add_executable(test-voice EXCLUDE_FROM_ALL
   src/demos/test-voice.cpp
 )
 add_dependencies(test-voice libpiper_untar)
