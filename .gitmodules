@@ -13,6 +13,3 @@
 [submodule "itu-g711-codec"]
 	path = itu-g711-codec
 	url = https://github.com/brucemack/itu-g711-codec.git
-[submodule "piper1-gpl"]
-	path = piper1-gpl
-	url = https://github.com/OHF-Voice/piper1-gpl.git
