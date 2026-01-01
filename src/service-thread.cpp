@@ -60,7 +60,7 @@ void* service_thread(void* l) {
     amp::lowerThreadPriority();
 
     // Main loop        
-    Runnable2* tasks2[] = { &registerTask, &statsTask };
+    Runnable2* tasks2[] = { &registerTask };
     EventLoop::run(log, clock, 0, 0, tasks2, std::size(tasks2));
 
     return 0;
