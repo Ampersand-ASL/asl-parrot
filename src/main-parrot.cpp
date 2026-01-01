@@ -21,9 +21,6 @@
 #else
 #include <execinfo.h>
 #include <signal.h>
-//#include <sched.h>
-//#include <linux/sched.h>
-//#include <linux/sched/types.h>
 #include <pthread.h>
 #include <sys/syscall.h> 
 #endif 
@@ -35,7 +32,6 @@
 #include <curl/curl.h>
 
 #include "kc1fsz-tools/Log.h"
-//#include "kc1fsz-tools/linux/LinuxPollTimer.h"
 #include "kc1fsz-tools/linux/StdClock.h"
 #include "kc1fsz-tools/fixedqueue.h"
 
@@ -56,7 +52,7 @@
 using namespace std;
 using namespace kc1fsz;
 
-static const char* VERSION = "20251220.0";
+static const char* VERSION = "20260101.0";
 
 // TODO: NEED MORE RESEARCH ON THIS
 static const char* LOCAL_USER = "radio";
@@ -72,6 +68,7 @@ export AMP_IAX_AUTHMODE=OPEN
 export AMP_ASL_REG_URL=https://register.allstarlink.org
 export AMP_ASL_STAT_URL=http://stats.allstarlink.org/uhandler
 export AMP_ASL_DNS_ROOT=allstarlink.org
+export LD_LIBRARY_PATH=/home/admin/asl-parrot/build/libpiper-aarch64:/home/admin/asl-parrot/build/libpiper-aarch64/lib
 */
 
 // TEMPORARY: Accept all calls

@@ -21,7 +21,7 @@ int main(int,const char**) {
     // options.length_scale = 2;
     // options.speaker_id = 5;
 
-    piper_synthesize_start(synth, "Parrot connected, CODEC is 16k linear. Ready to record!    Peak -12dB, average -35dB.",
+    piper_synthesize_start(synth, "Hello, parrot connected, CODEC is 16k linear. Ready to record!    Peak -12dB, average -35dB.",
                            &options /* NULL for defaults */);
 
     piper_audio_chunk chunk;
