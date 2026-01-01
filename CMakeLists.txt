@@ -107,7 +107,12 @@ target_link_libraries(asl-parrot -lpiper -lonnxruntime)
 install(TARGETS asl-parrot RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin COMPONENT asl-parrot)
 install(FILES etc/asl-parrot.env DESTINATION ${CMAKE_INSTALL_PREFIX}/etc COMPONENT asl-parrot)
 install(FILES etc/asl-parrot.service DESTINATION ${CMAKE_INSTALL_PREFIX}/etc COMPONENT asl-parrot)
-install(DIRECTORY media DESTINATION ${CMAKE_INSTALL_PREFIX}/media COMPONENT asl-parrot)
+# Files needed for Piper TTS
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libpiper-aarch64/libpiper.so DESTINATION ${CMAKE_INSTALL_PREFIX}/bin COMPONENT asl-parrot)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libpiper-aarch64/lib/libonnxruntime.so.1 DESTINATION ${CMAKE_INSTALL_PREFIX}/bin COMPONENT asl-parrot)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/en_US-amy-low.onnx DESTINATION ${CMAKE_INSTALL_PREFIX}/etc COMPONENT asl-parrot)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/en_US-amy-low.onnx.json DESTINATION ${CMAKE_INSTALL_PREFIX}/etc COMPONENT asl-parrot)
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/libpiper-aarch64/espeak-ng-data DESTINATION ${CMAKE_INSTALL_PREFIX}/etc COMPONENT asl-parrot)
 
 # ----- test-voice -----------------------------------------------------------
 
