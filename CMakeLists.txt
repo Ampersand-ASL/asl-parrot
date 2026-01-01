@@ -62,6 +62,7 @@ add_executable(asl-parrot
   amp-core/src/BridgeIn.cpp
   amp-core/src/BridgeOut.cpp
   amp-core/src/Resampler.cpp
+  amp-core/src/ThreadUtil.cpp
   kc1fsz-tools-cpp/src/Common.cpp
   kc1fsz-tools-cpp/src/NetUtils.cpp
   kc1fsz-tools-cpp/src/DTMFDetector2.cpp

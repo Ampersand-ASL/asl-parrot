@@ -46,6 +46,7 @@
 #include "EventLoop.h"
 #include "Bridge.h"
 #include "MultiRouter.h"
+#include "ThreadUtil.h"
 
 #include "service-thread.h"
 
@@ -96,8 +97,9 @@ static void sigHandler(int sig) {
 
 int main(int argc, const char** argv) {
 
+    amp::setThreadName("Parrot");
+
 #ifndef _WIN32    
-    pthread_setname_np(pthread_self(), "Parrot");
     signal(SIGSEGV, sigHandler);
     MTLog log;
 #else

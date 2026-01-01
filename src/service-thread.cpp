@@ -15,8 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 #include <sched.h>
-//#include <linux/sched.h>
-//#include <linux/sched/types.h>
 #include <errno.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -36,14 +34,14 @@
 #include "RegisterTask.h"
 #include "StatsTask.h"
 #include "EventLoop.h"
+#include "ThreadUtil.h"
 
 using namespace std;
 using namespace kc1fsz;
 
 void* service_thread(void* l) {
 
-    pthread_setname_np(pthread_self(), "SVC");
-    //pthread_setname_np("SVC");
+    amp::setThreadName("SVC");
 
     Log& log = *((Log*)l);
     log.info("Start service_thread");
@@ -56,39 +54,10 @@ void* service_thread(void* l) {
     StatsTask statsTask(log, clock, "1.0.0");
     statsTask.configure(getenv("AMP_ASL_STAT_URL"), getenv("AMP_NODE0_NUMBER"));
 
-    // #### TODO: CLEAN UP
     // Sleep waiting to change real-time status
     sleep(10);
-
     // All of this stuff lowers the priority of the service thread
-
-    const pthread_t self_thread = pthread_self();
-    int policy;
-    struct sched_param param;
-
-    // Get current scheduling parameters
-    if (pthread_getschedparam(self_thread, &policy, &param) != 0) {
-        perror("pthread_getschedparam failed");
-        return 0;
-    }
-    if (policy != SCHED_OTHER) {
-        // Set the new policy to SCHED_OTHER and priority to 0 (required for SCHED_OTHER)
-        param.sched_priority = 0;
-        if (pthread_setschedparam(self_thread, SCHED_OTHER, &param) != 0) {
-            perror("pthread_setschedparam to SCHED_OTHER failed");
-            // Check for EPERM if it was previously a real-time policy and no capabilities are set
-            if (errno == EPERM) {
-                printf("Permission denied. Ensure the process has CAP_SYS_NICE if changing from a real-time policy.\n");
-            }
-            return 0;
-        }
-        // Get current scheduling parameters
-        if (pthread_getschedparam(self_thread, &policy, &param) != 0) {
-            perror("pthread_getschedparam failed");
-            return 0;
-        }
-        log.info("Thread policy: %d, priority: %d", policy, param.sched_priority);
-    }
+    amp::lowerThreadPriority();
 
     // Main loop        
     Runnable2* tasks2[] = { &registerTask, &statsTask };
