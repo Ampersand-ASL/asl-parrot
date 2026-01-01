@@ -1,6 +1,6 @@
 #!/bin/bash
 # Run this on the source tree before making a .tar
-VERSION=1.0
+VERSION=$ASL_PARROT_VERSION
 rm -rf /tmp/asl-parrot-$VERSION
 cp -r ../asl-parrot /tmp
 mv /tmp/asl-parrot /tmp/asl-parrot-$VERSION

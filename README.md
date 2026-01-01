@@ -15,11 +15,9 @@ Building ASL Parrot With Install
 --------------------------------
 
     cd asl-parrot
-    mkdir build
-    cd build
-    cmake -DCMAKE_INSTALL_PREFIX=/tmp
-    cmake --build . --target asl-parrot
-    cmake --install . --component asl-parrot
+    cmake -DCMAKE_INSTALL_PREFIX=/tmp -B build
+    cmake --build build --target asl-parrot
+    cmake --install build --component asl-parrot
 
 Debian Package Notes
 ---------------------
@@ -28,12 +26,12 @@ Making the package for the asl-parrot:
 
     # Update the change log (new entries at top)
     sudo apt install debmake debhelper
-    VERSION=1.1
+    export ASL_PARROT_VERSION=1.2
     cd asl-parrot
     scripts/make-source-tar-parrot.sh
     cd /tmp
-    tar -xzmf asl-parrot-$VERSION.tar.gz
-    cd asl-parrot-$VERSION
+    tar -xzmf asl-parrot-$ASL_PARROT_VERSION.tar.gz
+    cd asl-parrot-$ASL_PARROT_VERSION
     # Clean out the CMakeLists.txt file of all other targets
     debmake
     debuild

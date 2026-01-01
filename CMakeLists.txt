@@ -22,6 +22,9 @@ add_compile_options(-fstack-protector-all -Wall -Wpedantic -g)
 
 # ----- Custom work needed to use  libpiper ----------------------------------
 
+# A pre-build version of the libpiper run-time has been created to avoid the 
+# complexity of building it on the fly.
+# TODO: Figure out how to remove this.
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}/include
   COMMAND wget https://mackinnon.info/ampersand/releases/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}.tar.gz -O ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}.tar.gz
   COMMAND ${CMAKE_COMMAND} -E tar xf ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}.tar.gz
@@ -30,6 +33,7 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYST
 )
 add_custom_target(libpiper_untar DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}/include)
 
+# This is the voice file we use (Amy, low quality)
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/en_US-amy-low.onnx ${CMAKE_CURRENT_BINARY_DIR}/en_US-amy-low.onnx.json
   COMMAND wget https://mackinnon.info/ampersand/releases/en_US-amy-low.onnx -O ${CMAKE_CURRENT_BINARY_DIR}/en_US-amy-low.onnx
   COMMAND wget https://mackinnon.info/ampersand/releases/en_US-amy-low.onnx.json -O ${CMAKE_CURRENT_BINARY_DIR}/en_US-amy-low.onnx.json
@@ -111,6 +115,7 @@ install(FILES etc/asl-parrot.service DESTINATION ${CMAKE_INSTALL_PREFIX}/etc COM
 # Files needed for Piper TTS
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libpiper-aarch64/libpiper.so DESTINATION ${CMAKE_INSTALL_PREFIX}/bin COMPONENT asl-parrot)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libpiper-aarch64/lib/libonnxruntime.so.1 DESTINATION ${CMAKE_INSTALL_PREFIX}/bin COMPONENT asl-parrot)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libpiper-aarch64/lib/libonnxruntime.so.1.22.0 DESTINATION ${CMAKE_INSTALL_PREFIX}/bin COMPONENT asl-parrot)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/en_US-amy-low.onnx DESTINATION ${CMAKE_INSTALL_PREFIX}/etc COMPONENT asl-parrot)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/en_US-amy-low.onnx.json DESTINATION ${CMAKE_INSTALL_PREFIX}/etc COMPONENT asl-parrot)
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/libpiper-aarch64/espeak-ng-data DESTINATION ${CMAKE_INSTALL_PREFIX}/etc COMPONENT asl-parrot)
@@ -130,5 +135,3 @@ target_include_directories(test-voice PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/libpip
 target_link_directories(test-voice PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR})
 target_link_directories(test-voice PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}/lib)
 target_link_libraries(test-voice -lpiper -lonnxruntime)
-
-
