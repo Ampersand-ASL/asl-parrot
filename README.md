@@ -36,7 +36,6 @@ Making the package for the asl-parrot:
     cd /tmp
     tar -xzmf asl-parrot-$ASL_PARROT_VERSION.tar.gz
     cd asl-parrot-$ASL_PARROT_VERSION
-    # Clean out the CMakeLists.txt file of all other targets
     debmake
     debuild
 
