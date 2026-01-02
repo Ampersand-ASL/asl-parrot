@@ -28,6 +28,7 @@
 #include <iostream>
 #include <cmath> 
 #include <queue>
+#include <thread>
 
 #include <curl/curl.h>
 
@@ -128,7 +129,8 @@ int main(int argc, const char** argv) {
     }
 
     amp::Bridge bridge10(log, clock, amp::BridgeCall::Mode::PARROT);
-    
+    std::thread ttsThread(&Bridge::ttsThread, &bridge10);
+
     CallDestinationValidatorStd val;
     // IMPORTANT: The directed POKE feature is turned on here!
     LineIAX2 iax2Channel1(log, clock, 1, bridge10, &val, 0, 0);
