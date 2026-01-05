@@ -129,7 +129,7 @@ int main(int argc, const char** argv) {
     }
 
     amp::Bridge bridge10(log, clock, amp::BridgeCall::Mode::PARROT);
-    std::thread ttsThread(&Bridge::ttsThread, &bridge10);
+    std::thread ttsThread(&amp::Bridge::ttsThread, &bridge10);
 
     CallDestinationValidatorStd val;
     // IMPORTANT: The directed POKE feature is turned on here!
