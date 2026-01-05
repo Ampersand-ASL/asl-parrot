@@ -47,7 +47,10 @@ Get the .deb file:
 
 Install the package:
 
-    sudo apt install asl-parrot_1.2-1_arm64.deb
+    sudo apt install ./asl-parrot_1.2-1_arm64.deb
+
+NOTE: There may be a notice displayed that contains "permission denied." If this is 
+just a notice it can be ignored.
 
 **Before starting the service** add the secrets to /usr/etc/asl-parrot.env file
 

@@ -26,6 +26,7 @@ Debian Package Notes
 
 Making the package for the asl-parrot:
 
+    # Move the version number forward in src/main-parrot.cpp
     # Update the change log (new entries at top)
     sudo apt install debmake debhelper
     export ASL_PARROT_VERSION=1.2
