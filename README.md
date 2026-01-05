@@ -12,8 +12,6 @@ export AMP_ASL_STAT_URL=http://stats.allstarlink.org/uhandler
 export AMP_ASL_DNS_BASE=nodes.allstarlink.org
 # Pointer to Piper TTS files (voice and the espeak runtime files)
 AMP_PIPER_DIR=/usr/etc
-# Point to Piper TSS libpiper.so and libonnxruntime.so.1
-LD_LIBRARY_PATH=/usr/bin
 
 Building ASL Parrot With Install
 --------------------------------
@@ -38,10 +36,11 @@ Making the package for the asl-parrot:
     cd asl-parrot-$ASL_PARROT_VERSION
     debmake
     debuild
+    # Move the package to the distribution area
 
 Looking at the contents:
 
-    dpkg -c asl-parrot_1.0-1_arm64.deb 
+    dpkg -c asl-parrot_$ASL_PARROT_VERSION-1_arm64.deb 
 
 Installing from a .deb file:
 
@@ -56,8 +55,3 @@ Service Commands:
     sudo systemctl enable asl-parrot
     sudo systemctl start asl-parrot
     journalctl -u asl-parrot -f
-
-Audio Prompts (AWS Polly)
---------------------------
-
-        <speak><prosody rate="100%">Parrot connected, ready to record.</prosody></speak>
