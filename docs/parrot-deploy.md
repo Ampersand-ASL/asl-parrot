@@ -7,14 +7,6 @@ a more automated process.
 * This is a low-volume, low-criticality application. There is no need to be doing
 load balancing across redundant copies, etc.
 * A single EC2 instance will be used.
-* The EC2 server will host the parrot server (listening on IAX2 ports) and a Python web server (uvicorn listening on the usual web ports) for UI functions.
-* Eventually there will be an https://www.allstarlink.org/XXXXX application path
-assigned.
-* Eventually the HTTPS connections to the web application will be terminated by 
-an AWS load balancer or something similar that will deal with the TLS certificates. 
-Non-TLS connections will be forwarded from the load balancer to the parrot UI on 8080.
-* In the meantime, the UI will accept HTTP/HTTPS connections directly for initial 
-development/testing. 
 * Bruce will be able to redeploy the application independently until it is stable.
 
 # Things You Need To Deploy
@@ -22,7 +14,6 @@ development/testing.
 These instructions assume you are starting from nothing except:
 * The URL of the .deb packages (get that from Bruce)
 * The ASL node number and password for the parrot node 
-* (NOT YET) The ASL API Key needed to invoke the ASL authentication API (get that from Jason).
 * An AWS account with permissions to create an EC2 instance.
 
 # Steps To Install
@@ -52,17 +43,16 @@ Add the required Linux packages:
 
 Get the .deb file:
 
-    wget <url>/asl-parrot_1.0-1_arm64.deb
+    wget <url>/asl-parrot_1.2-1_arm64.deb
 
 Install the package:
 
-    sudo apt install asl-parrot_1.0-1_arm64.deb
+    sudo apt install asl-parrot_1.2-1_arm64.deb
 
 **Before starting the service** add the secrets to /usr/etc/asl-parrot.env file
 
     AMP_NODE0_NUMBER=nnnnn
     AMP_NODE0_PASSWORD=xxxx
-    AMP_AWS_API_KEY=yyyyy
 
 Enable and start the service:
 
