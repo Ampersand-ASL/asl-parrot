@@ -43,11 +43,11 @@ Add the required Linux packages:
 
 Get the .deb file:
 
-    wget <url>/asl-parrot_1.2-1_arm64.deb
+    wget https://mackinnon.info/ampersand/releases/asl-parrot_1.3-1_arm64.deb
 
 Install the package:
 
-    sudo apt install ./asl-parrot_1.2-1_arm64.deb
+    sudo apt install ./asl-parrot_1.3-1_arm64.deb
 
 NOTE: There may be a notice displayed that contains "permission denied." If this is 
 just a notice it can be ignored.
