@@ -4,7 +4,6 @@ Environment Variables
 ---------------------
 export AMP_NODE0_NUMBER=nnnnn
 export AMP_NODE0_PASSWORD=xxxxx
-export AMP_NODE0_MGR_PORT=5038
 export AMP_IAX_PROTO=IPV4
 export AMP_IAX_PORT=4569
 export AMP_ASL_REG_URL=https://register.allstarlink.org
@@ -29,7 +28,7 @@ Making the package for the asl-parrot:
     # Move the version number forward in src/main-parrot.cpp
     # Update the change log (new entries at top)
     sudo apt install debmake debhelper
-    export ASL_PARROT_VERSION=1.2
+    export ASL_PARROT_VERSION=1.3
     cd asl-parrot
     scripts/make-source-tar-parrot.sh
     cd /tmp
@@ -45,11 +44,12 @@ Looking at the contents:
 
 Installing from a .deb file:
 
-    sudo apt install ./asl-parrot_1.0-1_arm64.deb
+    wget https://mackinnon.info/ampersand/releases/asl-parrot_1.3-1_arm64.deb
+    sudo apt install ./asl-parrot_1.3-1_arm64.deb
 
 Uninstall:
 
-    sudo apt remove ./asl-parrot_1.0-1_arm64.deb
+    sudo apt remove ./asl-parrot_1.3-1_arm64.deb
 
 Service Commands:
 
