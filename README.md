@@ -1,27 +1,41 @@
-# Ampersand ASL Server 
+This repo builds the ASL Parrot which is based on 
+the [Ampersand Linking Project](https://github.com/Ampersand-ASL)
+by [Bruce MacKinnon KC1FSZ](https://www.qrz.com/db/KC1FSZ).
 
-Environment Variables
----------------------
-export AMP_NODE0_NUMBER=nnnnn
-export AMP_NODE0_PASSWORD=xxxxx
-export AMP_IAX_PROTO=IPV4
-export AMP_IAX_PORT=4569
-export AMP_ASL_REG_URL=https://register.allstarlink.org
-export AMP_ASL_STAT_URL=http://stats.allstarlink.org/uhandler
-export AMP_ASL_DNS_BASE=nodes.allstarlink.org
-# Pointer to Piper TTS files (voice and the espeak runtime files)
-AMP_PIPER_DIR=/usr/etc
+This parrot was inspired
+by the famous [Texas 55553 Parrot](https://mackinnon.info/ampersand/parrot-55553-notes) created by Patrick N2DYI.
 
-Building ASL Parrot With Install
---------------------------------
+# Capabilities
+
+* Basic record/playback.
+* Announces the peak and average audio level in dB.
+* Does not require authentication/registration to use.
+* Will make an announcement if the calling node is not 
+registered in the ASL database (inferred from result of DNS lookup
+to nnnnn.nodes.allstarlink.org)
+* Will make an announcement if the calling node is unreachable
+from the public internet (i.e. if your firewall isn't configured
+properly).
+* DTMF 1 generates an audio sweep pattern that is used for 
+testing/characterizing audio hardware. The sweep is preceded 
+by an FSK signal for synchronizing test devices. 
+* DTMF 2 generates a fixed 440 Hz tone, 0.5 amplitude, 5 seconds. 
+
+# Sweep Specifics
+
+* Amplitude 0.5 peak.
+* Intro marker: FSK between 400 and 800 Hz, 40ms each, x8.
+* Sweep from DC to 4kHz or 8kHz (depending on CODEC) in 100 Hz
+increments. 100ms at each frequency.
+
+# Building ASL Parrot With Install
 
     cd asl-parrot
     cmake -DCMAKE_INSTALL_PREFIX=/tmp -B build
     cmake --build build --target asl-parrot
     cmake --install build --component asl-parrot
 
-Debian Package Notes
----------------------
+# Debian Package Notes
 
 Making the package for the asl-parrot:
 
@@ -56,3 +70,15 @@ Service Commands:
     sudo systemctl enable asl-parrot
     sudo systemctl start asl-parrot
     journalctl -u asl-parrot -f
+
+# Environment Variables Used At Runtime
+
+export AMP_NODE0_NUMBER=nnnnn
+export AMP_NODE0_PASSWORD=xxxxx
+export AMP_IAX_PROTO=IPV4
+export AMP_IAX_PORT=4569
+export AMP_ASL_REG_URL=https://register.allstarlink.org
+export AMP_ASL_STAT_URL=http://stats.allstarlink.org/uhandler
+export AMP_ASL_DNS_BASE=nodes.allstarlink.org
+# Pointer to Piper TTS files (voice and the espeak runtime files)
+AMP_PIPER_DIR=/usr/etc
