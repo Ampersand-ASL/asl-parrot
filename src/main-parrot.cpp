@@ -139,7 +139,8 @@ int main(int argc, const char** argv) {
     std::thread netTestThread(Poker::loop, &log, &clock, 
         &networkTestReqQueue, &respQueue, &netTestRun);
 
-    amp::Bridge bridge10(log, traceLog, clock, router, amp::BridgeCall::Mode::PARROT, 7, 8);
+    amp::Bridge bridge10(log, traceLog, clock, router, amp::BridgeCall::Mode::PARROT, 
+        10, 7, 8);
     router.addRoute(&bridge10, 10);
 
     CallDestinationValidatorStd val;

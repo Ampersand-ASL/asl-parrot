@@ -30,7 +30,11 @@ increments. 100ms at each frequency.
 
 # Building ASL Parrot With Install
 
+    # Make sure you have all the packages needed to build
+    sudo apt install cmake build-essential git xxd libasound2-dev libcurl4-gnutls-dev Libusb-1.0-0-dev
+    git clone https://github.com/Ampersand-ASL/asl-parrot.git
     cd asl-parrot
+    git submodule update --init
     cmake -DCMAKE_INSTALL_PREFIX=/tmp -B build
     cmake --build build --target asl-parrot
     cmake --install build --component asl-parrot
