@@ -39,11 +39,11 @@
 using namespace std;
 using namespace kc1fsz;
 
-void* service_thread(void* l) {
+void service_thread(Log* l) {
 
     amp::setThreadName("SVC");
 
-    Log& log = *((Log*)l);
+    Log& log = *l;
     log.info("Start service_thread");
     StdClock clock;
 
@@ -56,12 +56,11 @@ void* service_thread(void* l) {
 
     // Sleep waiting to change real-time status
     sleep(10);
+    
     // All of this stuff lowers the priority of the service thread
     amp::lowerThreadPriority();
 
     // Main loop        
     Runnable2* tasks2[] = { &registerTask };
     EventLoop::run(log, clock, 0, 0, tasks2, std::size(tasks2));
-
-    return 0;
 }

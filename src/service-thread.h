@@ -16,5 +16,8 @@
  */
 #pragma once
 
-void* service_thread(void* l);
+#include "kc1fsz-tools/Log.h"
+
+void service_thread(kc1fsz::Log* l);
+
 

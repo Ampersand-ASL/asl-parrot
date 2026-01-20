@@ -35,6 +35,7 @@
 #include "kc1fsz-tools/Log.h"
 #include "kc1fsz-tools/linux/StdClock.h"
 #include "kc1fsz-tools/fixedqueue.h"
+#include "kc1fsz-tools/threadsafequeue.h"
 
 #ifdef _WIN32
 #include "kc1fsz-tools/win32/Win32MTLog.h"
@@ -42,19 +43,23 @@
 #include "kc1fsz-tools/linux/MTLog.h"
 #endif
 
+#include "NullLog.h"
 #include "LineIAX2.h"
 #include "ManagerTask.h"
 #include "EventLoop.h"
 #include "Bridge.h"
 #include "MultiRouter.h"
 #include "ThreadUtil.h"
+#include "MultiRouter.h"
+#include "Poker.h"
+#include "TTSService.h"
 
 #include "service-thread.h"
 
 using namespace std;
 using namespace kc1fsz;
 
-static const char* VERSION = "20260106.0";
+static const char* VERSION = "20260120.0";
 
 // TODO: NEED MORE RESEARCH ON THIS
 static const char* LOCAL_USER = "radio";
@@ -81,20 +86,7 @@ public:
     }
 };
 
-#ifndef _WIN32
-// A crash signal handler that displays stack information
-static void sigHandler(int sig) {
-    void *array[32];
-    // get void*'s for all entries on the stack
-    size_t size = backtrace(array, 32);
-    // print out all the frames to stderr
-    fprintf(stderr, "Error: signal %d:\n", sig);
-    backtrace_symbols_fd(array, size, STDERR_FILENO);
-    // Now do the regular thing
-    signal(sig, SIG_DFL); 
-    raise(sig);
-}
-#endif
+static void sigHandler(int sig);
 
 int main(int argc, const char** argv) {
 
@@ -112,7 +104,8 @@ int main(int argc, const char** argv) {
     log.info("Version %s", VERSION);
 
     StdClock clock;
-  
+    NullLog traceLog;
+
     CURLcode res = curl_global_init(CURL_GLOBAL_ALL);
     if (res) {
         log.error("curl_global_init() failed");
@@ -121,19 +114,38 @@ int main(int argc, const char** argv) {
 
     // Get the service thread running. This handles registration,
     // status, and the monitor.
-    pthread_t new_thread_id;
-    int trc = pthread_create(&new_thread_id,0, service_thread, (Log*)(&log));
-    if (trc != 0) {
-        log.error("Unable to create thread %d/%d", trc, errno);
-        return -1;
-    }
+    std::thread serviceThread(service_thread, &log);
 
-    amp::Bridge bridge10(log, clock, amp::BridgeCall::Mode::PARROT);
-    std::thread ttsThread(&amp::Bridge::ttsThread, &bridge10);
+    // Setup the message router
+    threadsafequeue<Message> respQueue;
+    MultiRouter router(respQueue);
+
+    // Setup a background thread to do TTS. 
+    // There are queues in/out to handle requests/response.
+    // This is hard-coded as line #7.
+    threadsafequeue<Message> ttsReqQueue;
+    QueueConsumer ttsConsumer7(ttsReqQueue);
+    router.addRoute(&ttsConsumer7, 7);
+    std::atomic<bool> ttsRun(true);
+    std::thread ttsThread(amp::ttsLoop, &log, &ttsReqQueue, &respQueue, &ttsRun);
+
+    // Setup a background thread that can perform network testing functions.
+    // There are queues in/out to handle requests/response.
+    // This is hard-coded as line #8.
+    threadsafequeue<Message> networkTestReqQueue;
+    QueueConsumer networkTestConsumer8(networkTestReqQueue);
+    router.addRoute(&networkTestConsumer8, 8);
+    std::atomic<bool> netTestRun(true);
+    std::thread netTestThread(Poker::loop, &log, &clock, 
+        &networkTestReqQueue, &respQueue, &netTestRun);
+
+    amp::Bridge bridge10(log, traceLog, clock, router, amp::BridgeCall::Mode::PARROT, 7, 8);
+    router.addRoute(&bridge10, 10);
 
     CallDestinationValidatorStd val;
     // IMPORTANT: The directed POKE feature is turned on here!
-    LineIAX2 iax2Channel1(log, clock, 1, bridge10, &val, 0, 0);
+    LineIAX2 iax2Channel1(log, traceLog, clock, 1, router, &val, 0, 10);
+    router.addRoute(&iax2Channel1, 1);
     //iax2Channel0.setTrace(true);
     iax2Channel1.setPrivateKey(getenv("AMP_PRIVATE_KEY"));
     iax2Channel1.setDNSRoot(getenv("AMP_ASL_DNS_ROOT"));
@@ -145,7 +157,6 @@ int main(int argc, const char** argv) {
         else if (strcmp(getenv("AMP_IAX_AUTHMODE"), "CHALLENGE_ED25519") == 0) 
             iax2Channel1.setAuthMode(LineIAX2::AuthMode::CHALLENGE_ED25519);
     }
-    bridge10.setSink(&iax2Channel1);
 
     // Determine the address family, defaulting to IPv4
     short addrFamily = getenv("AMP_IAX_PROTO") != 0 && 
@@ -154,8 +165,23 @@ int main(int argc, const char** argv) {
     iax2Channel1.open(addrFamily, atoi(getenv("AMP_IAX_PORT")), LOCAL_USER);
 
     // Main loop        
-    Runnable2* tasks2[] = { &iax2Channel1, &bridge10 };
+    Runnable2* tasks2[] = { &iax2Channel1, &bridge10, &router };
     EventLoop::run(log, clock, 0, 0, tasks2, std::size(tasks2), nullptr, false);
 
     return 0;
 }
+
+#ifndef _WIN32
+// A crash signal handler that displays stack information
+static void sigHandler(int sig) {
+    void *array[32];
+    // get void*'s for all entries on the stack
+    size_t size = backtrace(array, 32);
+    // print out all the frames to stderr
+    fprintf(stderr, "Error: signal %d:\n", sig);
+    backtrace_symbols_fd(array, size, STDERR_FILENO);
+    // Now do the regular thing
+    signal(sig, SIG_DFL); 
+    raise(sig);
+}
+#endif
