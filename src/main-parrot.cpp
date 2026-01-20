@@ -102,6 +102,7 @@ int main(int argc, const char** argv) {
     log.info("KC1FSZ ASL Parrot");
     log.info("Powered by the Ampersand ASL Project https://github.com/Ampersand-ASL");
     log.info("Version %s", VERSION);
+    log.info("Bind interface for network tests: %s", getenv("AMP_NET_TEST_BIND_ADDR4"));
 
     StdClock clock;
     NullLog traceLog;
