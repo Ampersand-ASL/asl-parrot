@@ -39,7 +39,7 @@ Add the required Linux packages:
 
     sudo apt update
     sudo apt -y upgrade
-    sudo apt -y install net-tools build-essential gdb cmake git emacs python3.13-venv wget
+    sudo apt -y install net-tools build-essential gdb cmake git emacs python3.13-venv wget 
 
 Get the .deb file:
 

@@ -53,6 +53,11 @@ void apiLoop(Log* l, Clock* clock, int listenPort, const char* netTestBindAddr) 
 
     svr.Get("/network-test", 
         [&log, clock, netTestBindAddr](const httplib::Request& req, httplib::Response &res) {
+            // Check for the Authorization header
+            if (req.has_header("Authorization")) {
+                std::string authHeader = req.get_header_value("Authorization");
+            }
+
             // Make a network test request 
             if (req.has_param("node")) {
                 auto val = req.get_param_value("node");
