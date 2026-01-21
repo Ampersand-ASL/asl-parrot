@@ -29,6 +29,7 @@
 #include "MessageConsumer.h"
 #include "ThreadUtil.h"
 #include "TraceLog.h"
+#include "Poker.h"
 
 using namespace std;
 using namespace kc1fsz;
@@ -39,9 +40,7 @@ namespace kc1fsz {
 
     namespace amp {
 
-void apiLoop(Log* l, Clock* clock, int listenPort, 
-    threadsafequeue2<Message>* networkTestReqQueue, 
-    threadsafequeue2<Message>* inQueue) {
+void apiLoop(Log* l, Clock* clock, int listenPort, const char* netTestBindAddr) {
 
     Log& log = *l;
 
@@ -53,13 +52,33 @@ void apiLoop(Log* l, Clock* clock, int listenPort,
     httplib::Server svr;
 
     svr.Get("/network-test", 
-        [networkTestReqQueue, inQueue](const httplib::Request& req, httplib::Response &res) {
+        [&log, clock, netTestBindAddr](const httplib::Request& req, httplib::Response &res) {
             // Make a network test request 
             if (req.has_param("node")) {
-                auto val = req.get_param_value("key");
-                json o;
-                o["hello"] = val;
-                res.set_content(o.dump(), "application/json");
+                auto val = req.get_param_value("node");
+                Poker::Result r = Poker::poke(log, *clock, netTestBindAddr,
+                    val.c_str());
+                string status;
+                if (r.code == 0)
+                    status = "ok";
+                else if (r.code == -1 || r.code == -2 || r.code == -3)
+                    status = "unregistered";
+                else if (r.code == -9 || r.code == -10 || r.code == -11 ||
+                    r.code == -12) 
+                    status = "unreachable";
+                else 
+                    status = "unknown";
+                json o1;
+                o1["status"] = status;
+                o1["rc"] = r.code;
+                if (r.code == 0) {
+                    o1["addr"] = r.addr4;
+                    o1["port"] = r.port;
+                    o1["pingms"] = r.pokeTimeMs;
+                }
+                json o0;
+                o0["ipv4"] = o1;
+                res.set_content(o0.dump(), "application/json");
             } 
             else {
                 res.status = httplib::StatusCode::BadRequest_400;

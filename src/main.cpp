@@ -173,15 +173,9 @@ int main(int argc, const char** argv) {
     // Open up the IAX2 network connection
     iax2Channel1.open(addrFamily, atoi(getenv("AMP_IAX_PORT")), LOCAL_USER);
 
-    // This queue takes Messages from the router and sends them onto the 
-    // API thread.
-    threadsafequeue2<Message> apiThreadInQueue9;
-    QueueConsumer apiThreadInConsumer9(apiThreadInQueue9);
-    router.addRoute(&apiThreadInConsumer9, 9);
-
     // Setup the API thread
     std::thread apiThread(amp::apiLoop, &log, &clock, atoi(getenv("AMP_HTTP_PORT")),
-        &networkTestReqQueue, &apiThreadInQueue9);
+        getenv("AMP_NET_TEST_BIND_ADDR4"));
 
     // Main loop        
     Runnable2* tasks2[] = { &iax2Channel1, &bridge10, &router };
