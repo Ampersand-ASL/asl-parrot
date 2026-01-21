@@ -21,7 +21,9 @@
 namespace kc1fsz {
     namespace amp {
 
-void apiLoop(Log* l, Clock* clock, int listenPort);
+void apiLoop(Log* l, Clock* clock, int listenPort, 
+    threadsafequeue2<Message>* networkTestReqQueue, 
+    threadsafequeue2<Message>* inQueue);
 
     }
 }

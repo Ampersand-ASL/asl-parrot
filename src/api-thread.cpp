@@ -39,7 +39,9 @@ namespace kc1fsz {
 
     namespace amp {
 
-void apiLoop(Log* l, Clock* clock, int listenPort) {
+void apiLoop(Log* l, Clock* clock, int listenPort, 
+    threadsafequeue2<Message>* networkTestReqQueue, 
+    threadsafequeue2<Message>* inQueue) {
 
     Log& log = *l;
 
@@ -50,11 +52,20 @@ void apiLoop(Log* l, Clock* clock, int listenPort) {
     // HTTP
     httplib::Server svr;
 
-    svr.Get("/network-test", [](const httplib::Request &, httplib::Response &res) {
-        json o;
-        o["hello"] = "test";
-        res.set_content(o.dump(), "application/json");
-    });
+    svr.Get("/network-test", 
+        [networkTestReqQueue, inQueue](const httplib::Request& req, httplib::Response &res) {
+            // Make a network test request 
+            if (req.has_param("node")) {
+                auto val = req.get_param_value("key");
+                json o;
+                o["hello"] = val;
+                res.set_content(o.dump(), "application/json");
+            } 
+            else {
+                res.status = httplib::StatusCode::BadRequest_400;
+            }
+        }
+    );
 
     svr.listen("0.0.0.0", listenPort);
 

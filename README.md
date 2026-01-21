@@ -77,10 +77,11 @@ Service Commands:
 
 # Environment Variables Used At Runtime
 
-export AMP_NODE0_NUMBER=nnnnn
-export AMP_NODE0_PASSWORD=xxxxx
+export AMP_NODE0_NUMBER=
+export AMP_NODE0_PASSWORD=
 export AMP_IAX_PROTO=IPV4
 export AMP_IAX_PORT=4569
+export AMP_HTTP_PORT=8080
 export AMP_ASL_REG_URL=https://register.allstarlink.org
 export AMP_ASL_STAT_URL=http://stats.allstarlink.org/uhandler
 export AMP_ASL_DNS_BASE=nodes.allstarlink.org
