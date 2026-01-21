@@ -1,3 +1,11 @@
+asl-parrot (1.4-1) UNRELEASED; urgency=low
+
+  * Added network test with voice prompt. The parrot will "call back" using
+  the registered address/port of your node to see if a connection is 
+  possible. This is done using the POKE/PONG feature of the IAX protocol.
+      
+ -- Bruce MacKinnon <bruce@mackinnon.com>  Tue, 20 Jan 2026 14:00:00 -0500
+
 asl-parrot (1.3-1) UNRELEASED; urgency=low
 
   * Added tone/sweep generation on parrot

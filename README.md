@@ -85,9 +85,10 @@ export AMP_ASL_REG_URL=https://register.allstarlink.org
 export AMP_ASL_STAT_URL=http://stats.allstarlink.org/uhandler
 export AMP_ASL_DNS_BASE=nodes.allstarlink.org
 # Pointer to Piper TTS files (voice and the espeak runtime files)
-AMP_PIPER_DIR=/usr/etc
+export AMP_PIPER_DIR=/usr/etc
 # Network interface (IPv4) that is used to initiate network tests.
 # Needs to be different from the interface accepting IAX connections
 # for the test to be fully effective
-AMP_NET_TEST_BIND_ADDR4=0.0.0.0
+export AMP_NET_TEST_BIND_ADDR4=0.0.0.0
+
 

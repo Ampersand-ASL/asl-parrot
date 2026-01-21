@@ -36,6 +36,7 @@
 #include "kc1fsz-tools/linux/StdClock.h"
 #include "kc1fsz-tools/fixedqueue.h"
 #include "kc1fsz-tools/threadsafequeue.h"
+#include "kc1fsz-tools/threadsafequeue2.h"
 
 #ifdef _WIN32
 #include "kc1fsz-tools/win32/Win32MTLog.h"
@@ -118,13 +119,13 @@ int main(int argc, const char** argv) {
     std::thread serviceThread(service_thread, &log);
 
     // Setup the message router
-    threadsafequeue<Message> respQueue;
+    threadsafequeue2<Message> respQueue;
     MultiRouter router(respQueue);
 
     // Setup a background thread to do TTS. 
     // There are queues in/out to handle requests/response.
     // This is hard-coded as line #7.
-    threadsafequeue<Message> ttsReqQueue;
+    threadsafequeue2<Message> ttsReqQueue;
     QueueConsumer ttsConsumer7(ttsReqQueue);
     router.addRoute(&ttsConsumer7, 7);
     std::atomic<bool> ttsRun(true);
@@ -133,7 +134,7 @@ int main(int argc, const char** argv) {
     // Setup a background thread that can perform network testing functions.
     // There are queues in/out to handle requests/response.
     // This is hard-coded as line #8.
-    threadsafequeue<Message> networkTestReqQueue;
+    threadsafequeue2<Message> networkTestReqQueue;
     QueueConsumer networkTestConsumer8(networkTestReqQueue);
     router.addRoute(&networkTestConsumer8, 8);
     std::atomic<bool> netTestRun(true);
