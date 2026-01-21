@@ -45,8 +45,9 @@ add_custom_target(piper_voice DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/en_US-amy-low.
 # ----- ASL Parrot (Network) --------------------------------------------------
 
 add_executable(asl-parrot
-  src/main-parrot.cpp
+  src/main.cpp
   src/service-thread.cpp
+  src/api-thread.cpp
   amp-core/src/EventLoop.cpp
   amp-core/src/Message.cpp
   amp-core/src/Line.cpp
@@ -103,6 +104,9 @@ target_include_directories(asl-parrot PRIVATE itu-g711-codec/src)
 target_include_directories(asl-parrot PRIVATE cmsis-dsp-mock/include)
 target_include_directories(asl-parrot PRIVATE ed25519/src)
 target_include_directories(asl-parrot PRIVATE amp-core/include)
+target_include_directories(asl-parrot PRIVATE cpp-httplib)
+target_include_directories(asl-parrot PRIVATE json/include)
+
 # The untared libpiper
 target_include_directories(asl-parrot PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}/include)
 # TODO: REMOVE
