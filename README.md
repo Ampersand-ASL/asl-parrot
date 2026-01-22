@@ -97,20 +97,20 @@ Service Commands:
 
 # Environment Variables Used At Runtime
 
-export AMP_NODE0_NUMBER=
-export AMP_NODE0_PASSWORD=
-export AMP_IAX_PROTO=IPV4
-export AMP_IAX_PORT=4569
-export AMP_HTTP_PORT=8080
-export AMP_ASL_REG_URL=https://register.allstarlink.org
-export AMP_ASL_STAT_URL=http://stats.allstarlink.org/uhandler
-export AMP_ASL_DNS_BASE=nodes.allstarlink.org
-# Pointer to Piper TTS files (voice and the espeak runtime files)
-export AMP_PIPER_DIR=/usr/etc
-# Network interface (IPv4) that is used to initiate network tests.
-# Needs to be different from the interface accepting IAX connections
-# for the test to be fully effective
-export AMP_NET_TEST_BIND_ADDR4=0.0.0.0
+    export AMP_NODE0_NUMBER=
+    export AMP_NODE0_PASSWORD=
+    export AMP_IAX_PROTO=IPV4
+    export AMP_IAX_PORT=4569
+    export AMP_HTTP_PORT=8080
+    export AMP_ASL_REG_URL=https://register.allstarlink.org
+    export AMP_ASL_STAT_URL=http://stats.allstarlink.org/uhandler
+    export AMP_ASL_DNS_BASE=nodes.allstarlink.org
+    # Pointer to Piper TTS files (voice and the espeak runtime files)
+    export AMP_PIPER_DIR=/usr/etc
+    # Network interface (IPv4) that is used to initiate network tests.
+    # Needs to be different from the interface accepting IAX connections
+    # for the test to be fully effective
+    export AMP_NET_TEST_BIND_ADDR4=0.0.0.0
 
 # A Useful AWS Command
 
