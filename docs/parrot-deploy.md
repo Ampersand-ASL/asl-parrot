@@ -52,12 +52,17 @@ intended for network testing - you'll need that later.
 one for network diagnostics.
 * Assign the two IPs to the the two interfaces, respectively.
 
+IAM Setup:
+* Create an IAM role for EC2 that grants `AdministratorAccess`. This may be useful
+later when you want to run AWS CLI commands.
+
 Create an EC2 instance:
 * Debian 13, arm-64 using t4g-small instance type (t4g-micro being tested)
 * If you don't already have a keypair, create one called "parrot-1"
 * If necessary, download the private half of the keypair to ~/.ssh/parrot-1.pem so that you can log in using SSH.
 * Accept the default EBS size of 8G.
 * Associate the two network interfaces setup above.
+* Associate the IAM role that grants administrator access.
 * Wait for the instance to come up.
 
 If not created previously, get the public IPv4 address from the EC2 console. Use SSH to log into the new instance as admin:

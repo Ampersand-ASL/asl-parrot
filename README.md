@@ -112,4 +112,9 @@ export AMP_PIPER_DIR=/usr/etc
 # for the test to be fully effective
 export AMP_NET_TEST_BIND_ADDR4=0.0.0.0
 
+# A Useful AWS Command
 
+This command could be used to determine the private IP address of the 
+diagnostic interface:
+
+    aws ec2 describe-network-interfaces
