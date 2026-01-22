@@ -19,10 +19,10 @@ These instructions assume you are starting from nothing except:
 # Steps To Install
 
 Network setup:
-* Create two Security Groups, one that allows IAX/SSH inbound and the
-other that is outbound only (for network diagnostics)
 * Put the instance in a VPC/subnet that has IPv6 addressing enabled.
 * Put the instance on a subnet that has an IPv6 route to the internet.
+* Create two Security Groups, one that allows IAX/SSH inbound and the
+other that is outbound only (for network diagnostics)
 * Create two network interfaces, assigned to the two security groups 
 respectively
 * Create two elastic IP addresses, one for normal IAX/SSH activity and 
@@ -50,21 +50,36 @@ Add the required Linux packages:
 
 Get the .deb file:
 
-    wget https://mackinnon.info/ampersand/releases/asl-parrot_1.3-1_arm64.deb
+    wget https://mackinnon.info/ampersand/releases/asl-parrot_1.4-1_arm64.deb
 
 Install the package:
 
-    sudo apt install ./asl-parrot_1.3-1_arm64.deb
+    sudo apt install ./asl-parrot_1.4-1_arm64.deb
 
 NOTE: There may be a notice displayed that contains "permission denied." If this is 
 just a notice it can be ignored.
 
-**Before starting the service** add the secrets to /usr/etc/asl-parrot.env file
+**Before starting the service** make adjustments /usr/etc/asl-parrot.env file.
+
+Add the secrets here:
 
     AMP_NODE0_NUMBER=nnnnn
     AMP_NODE0_PASSWORD=xxxx
 
-Enable and start the service:
+Change the bind address used for network diagnostic testing to the INTERNAL
+IP address associated with the network interface that was setup for network
+diagnostics.
+
+    # Network interface (IPv4) that is used to initiate network tests.
+    # Needs to be different from the interface accepting IAX connections
+    # for the test to be fully effective
+    AMP_NET_TEST_BIND_ADDR4=172.31.23.91
+
+Adjust the HTTP listen port (internal VPC only) as needed:
+
+    AMP_HTTP_PORT=8080
+
+And then enable and start the service:
 
     sudo systemctl enable asl-parrot
     sudo systemctl start asl-parrot

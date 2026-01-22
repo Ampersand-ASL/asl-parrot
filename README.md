@@ -71,6 +71,7 @@ Making the package for the asl-parrot:
     debmake
     debuild
     # Move the package to the distribution area
+    cp /tmp/asl-parrot_$ASL_PARROT_VERSION-1_arm64.deb (distribution area)
 
 Looking at the contents:
 
@@ -78,12 +79,15 @@ Looking at the contents:
 
 Installing from a .deb file:
 
-    wget https://mackinnon.info/ampersand/releases/asl-parrot_1.3-1_arm64.deb
-    sudo apt install ./asl-parrot_1.3-1_arm64.deb
+    wget https://mackinnon.info/ampersand/releases/asl-parrot_1.4-1_arm64.deb
+    sudo apt install ./asl-parrot_1.4-1_arm64.deb
+
+_(There may be a "Notice" displayed during the install related to a permission issue. This
+can safely be ignored.)_
 
 Uninstall:
 
-    sudo apt remove ./asl-parrot_1.3-1_arm64.deb
+    sudo apt remove ./asl-parrot_1.4-1_arm64.deb
 
 Service Commands:
 
