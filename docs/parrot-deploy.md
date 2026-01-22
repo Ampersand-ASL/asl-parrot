@@ -16,6 +16,28 @@ These instructions assume you are starting from nothing except:
 * The ASL node number and password for the parrot node 
 * An AWS account with permissions to create an EC2 instance.
 
+# Special Network Setup Required
+
+This parrot has a network diagnostic feature that will attempt to 
+"call back" to a calling node to validate whether its firewall is opened 
+properly. This call-back *doesn't involve a full IAX call setup,* but rather
+relies on the documented POKE/PONG feature of the IAX protocol. The result
+of the network test are announced to the parrot caller. 
+
+In order for this call-back test to be effective it is important that it 
+originate from a **different IP address than the parrot uses for its normal
+IAX traffic.** Why? Because in the act of calling into the parrot, a node 
+opens a temporary/transient UDP hole that allows bi-directional traffic for 
+the duration of the parrot session. We don't want the parrot to get tricked
+into thinking that this transient UDP hole represent a satisfactory firewall setup.
+By running the parrot->caller poke request from a separate public IP address 
+it prevents the hole from being used.
+
+The mechanics of this in EC2 are pretty easy: there are two Elastic IP addresses
+assigned to the parrot instance, one for normal IAX activity and one for the sole
+purpose of network testing. Note that because these two address have different 
+security rules they also need to be on different network interfaces.  
+
 # Steps To Install
 
 Network setup:
@@ -27,12 +49,14 @@ other that is outbound only (for network diagnostics)
 respectively
 * Create two elastic IP addresses, one for normal IAX/SSH activity and 
 one for network diagnostics.
+* Assign the two IPs to the the two interfaces, respectively.
 
 Create an EC2 instance:
 * Debian 13, arm-64 using t4g-small instance type (t4g-micro being tested)
 * If you don't already have a keypair, create one called "parrot-1"
 * If necessary, download the private half of the keypair to ~/.ssh/parrot-1.pem so that you can log in using SSH.
 * Accept the default EBS size of 8G.
+* Associate the two network interfaces setup above.
 * Wait for the instance to come up.
 
 If not created previously, get the public IPv4 address from the EC2 console. Use SSH to log into the new instance as admin:
@@ -88,6 +112,10 @@ Check the log:
 
     journalctl -u asl-parrot.service -f
 
+Check the network tests API using curl:
+
+    curl http://localhost:8080/network-test?node=2002
+
 # Network Configuration
 
 ![Security Group](sg1.jpg)
@@ -96,7 +124,7 @@ Check the log:
 
 Example request:
     
-    curl asl-parrot:8080/network-test?node=2002
+    curl http://asl-parrot:8080/network-test?node=2002
 
 Example response (good case):
 
