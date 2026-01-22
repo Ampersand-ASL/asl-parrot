@@ -57,7 +57,7 @@ IAM Setup:
 later when you want to run AWS CLI commands.
 
 Create an EC2 instance:
-* Debian 13, arm-64 using t4g-small instance type (t4g-micro being tested)
+* Debian 13, arm-64 using t4g-micro instance type.
 * If you don't already have a keypair, create one called "parrot-1"
 * If necessary, download the private half of the keypair to ~/.ssh/parrot-1.pem so that you can log in using SSH.
 * Accept the default EBS size of 8G.
