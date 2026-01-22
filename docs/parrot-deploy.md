@@ -46,7 +46,8 @@ Network setup:
 * Create two Security Groups, one that allows IAX/SSH inbound and the
 other that is outbound only (for network diagnostics)
 * Create two network interfaces, assigned to the two security groups 
-respectively
+respectively. Make a note of the **private IP** of the network interface
+intended for network testing - you'll need that later.
 * Create two elastic IP addresses, one for normal IAX/SSH activity and 
 one for network diagnostics.
 * Assign the two IPs to the the two interfaces, respectively.
