@@ -16,6 +16,8 @@ to nnnnn.nodes.allstarlink.org)
 * Will make an announcement if the calling node is unreachable
 from the public internet (i.e. if your firewall isn't configured
 properly).
+* Supports a network testing API (ASL internal use only) that can 
+provide the results of the network test for an arbitrary node.
 * DTMF 1 generates an audio sweep pattern that is used for 
 testing/characterizing audio hardware. The sweep is preceded 
 by an FSK signal for synchronizing test devices. 
@@ -27,6 +29,20 @@ by an FSK signal for synchronizing test devices.
 * Intro marker: FSK between 400 and 800 Hz, 40ms each, x8.
 * Sweep from DC to 4kHz or 8kHz (depending on CODEC) in 100 Hz
 increments. 100ms at each frequency.
+
+# Network Test API
+
+Example request:
+    
+    curl asl-parrot:8080/network-test?node=2002
+
+Example response (good case):
+
+    {"ipv4":{"addr":"18.226.187.225","pingms":49,"port":4569,"rc":0,"status":"ok"}}
+
+Example response (bad case):
+
+    {"ipv4":{"rc":-9,"status":"unreachable"}}
 
 # Building ASL Parrot With Install
 
@@ -46,7 +62,7 @@ Making the package for the asl-parrot:
     # Move the version number forward in src/main-parrot.cpp
     # Update the change log (new entries at top)
     sudo apt install debmake debhelper
-    export ASL_PARROT_VERSION=1.3
+    export ASL_PARROT_VERSION=1.4
     cd asl-parrot
     scripts/make-source-tar-parrot.sh
     cd /tmp

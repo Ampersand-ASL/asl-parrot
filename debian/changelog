@@ -3,6 +3,8 @@ asl-parrot (1.4-1) UNRELEASED; urgency=low
   * Added network test with voice prompt. The parrot will "call back" using
   the registered address/port of your node to see if a connection is 
   possible. This is done using the POKE/PONG feature of the IAX protocol.
+  * Added an HTTP endpoint to support an IAX ping on an arbitrary node. Use
+  http://asl-parrot:8080/network-test?node=xxxxx.
       
  -- Bruce MacKinnon <bruce@mackinnon.com>  Tue, 20 Jan 2026 14:00:00 -0500
 

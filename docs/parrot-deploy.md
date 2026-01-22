@@ -18,14 +18,21 @@ These instructions assume you are starting from nothing except:
 
 # Steps To Install
 
-Create an EC2 instance:
-* Debian 13, arm-64 using t4g-small instance type
-* If you don't already have a keypair, create one called "parrot-1"
-* If necessary, download the private half of the keypair to ~/.ssh/parrot-1.pem so that you can log in using SSH.
-* Choose an appropriate security group for the new instance. Mine is called "Ampersand Server." (See below for specification of Security Group)
+Network setup:
+* Create two Security Groups, one that allows IAX/SSH inbound and the
+other that is outbound only (for network diagnostics)
 * Put the instance in a VPC/subnet that has IPv6 addressing enabled.
 * Put the instance on a subnet that has an IPv6 route to the internet.
-* Auto-assign an IPv6 IP address to the instance (disabled by default).
+* Create two network interfaces, assigned to the two security groups 
+respectively
+* Create two elastic IP addresses, one for normal IAX/SSH activity and 
+one for network diagnostics.
+
+Create an EC2 instance:
+* Debian 13, arm-64 using t4g-small instance type (t4g-micro being tested)
+* If you don't already have a keypair, create one called "parrot-1"
+* If necessary, download the private half of the keypair to ~/.ssh/parrot-1.pem so that you can log in using SSH.
+* Accept the default EBS size of 8G.
 * Wait for the instance to come up.
 
 If not created previously, get the public IPv4 address from the EC2 console. Use SSH to log into the new instance as admin:
@@ -39,7 +46,7 @@ Add the required Linux packages:
 
     sudo apt update
     sudo apt -y upgrade
-    sudo apt -y install net-tools build-essential gdb cmake git emacs python3.13-venv wget 
+    sudo apt -y install net-tools build-essential gdb cmake git emacs-nox python3.13-venv wget 
 
 Get the .deb file:
 
@@ -69,3 +76,17 @@ Check the log:
 # Network Configuration
 
 ![Security Group](sg1.jpg)
+
+# Network Test API 
+
+Example request:
+    
+    curl asl-parrot:8080/network-test?node=2002
+
+Example response (good case):
+
+    {"ipv4":{"addr":"18.226.187.225","pingms":49,"port":4569,"rc":0,"status":"ok"}}
+
+Example response (bad case):
+
+    {"ipv4":{"rc":-9,"status":"unreachable"}}
