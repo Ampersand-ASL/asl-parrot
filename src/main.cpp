@@ -149,6 +149,7 @@ int main(int argc, const char** argv) {
     amp::Bridge bridge10(log, traceLog, clock, router, amp::BridgeCall::Mode::PARROT, 
         10, 7, 8, getenv("AMP_NET_TEST_BIND_ADDR4"));
     router.addRoute(&bridge10, 10);
+    amp::BridgeCall::initializeWhiteNoise();
 
     // Setup the IAX line
     CallDestinationValidatorStd val;
