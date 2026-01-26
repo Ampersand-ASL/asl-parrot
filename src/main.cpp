@@ -64,10 +64,8 @@
 using namespace std;
 using namespace kc1fsz;
 
-static const char* VERSION = "20260124.0";
-
-// TODO: NEED MORE RESEARCH ON THIS
-static const char* LOCAL_USER = "radio";
+static const char* VERSION = "20260126.0";
+static const char* DEFAULT_USER = "radio";
 
 /*
 Development:
@@ -82,14 +80,6 @@ export AMP_ASL_STAT_URL=http://stats.allstarlink.org/uhandler
 export AMP_ASL_DNS_ROOT=allstarlink.org
 export LD_LIBRARY_PATH=/home/admin/asl-parrot/build/libpiper-aarch64:/home/admin/asl-parrot/build/libpiper-aarch64/lib
 */
-
-// TEMPORARY: Accept all calls
-class CallDestinationValidatorStd : public CallValidator {
-public:
-    virtual bool isNumberAllowed(const char* targetNumber) const {
-        return true;
-    }
-};
 
 static void sigHandler(int sig);
 
@@ -152,9 +142,8 @@ int main(int argc, const char** argv) {
     amp::BridgeCall::initializeWhiteNoise();
 
     // Setup the IAX line
-    CallDestinationValidatorStd val;
     // IMPORTANT: The directed POKE feature is turned on here!
-    LineIAX2 iax2Channel1(log, traceLog, clock, 1, router, &val, 0, 10);
+    LineIAX2 iax2Channel1(log, traceLog, clock, 1, router, 0, 0, 0, 10);
     router.addRoute(&iax2Channel1, 1);
     //iax2Channel0.setTrace(true);
     iax2Channel1.setPrivateKey(getenv("AMP_PRIVATE_KEY"));
@@ -172,7 +161,7 @@ int main(int argc, const char** argv) {
     short addrFamily = getenv("AMP_IAX_PROTO") != 0 && 
         strcmp(getenv("AMP_IAX_PROTO"), "IPV6") == 0 ? AF_INET6 : AF_INET;
     // Open up the IAX2 network connection
-    iax2Channel1.open(addrFamily, atoi(getenv("AMP_IAX_PORT")), LOCAL_USER);
+    iax2Channel1.open(addrFamily, atoi(getenv("AMP_IAX_PORT")), DEFAULT_USER);
 
     // Setup the API thread
     std::thread apiThread(amp::apiLoop, &log, &clock, atoi(getenv("AMP_HTTP_PORT")),
