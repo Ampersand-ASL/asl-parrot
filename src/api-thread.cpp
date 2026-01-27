@@ -91,7 +91,8 @@ void apiLoop(Log* l, Clock* clock, int listenPort, const char* netTestBindAddr) 
         }
     );
 
-    svr.listen("0.0.0.0", listenPort);
+    if (!svr.listen("0.0.0.0", listenPort))
+        log.error("Failed to listen on API HTTP port");
 
     log.info("End API thread");
 }

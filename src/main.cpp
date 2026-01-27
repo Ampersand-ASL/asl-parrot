@@ -137,9 +137,10 @@ int main(int argc, const char** argv) {
 
     // Setup the conference budget in Parrot mode
     amp::Bridge bridge10(log, traceLog, clock, router, amp::BridgeCall::Mode::PARROT, 
-        10, 7, 8, getenv("AMP_NET_TEST_BIND_ADDR4"));
+        10, 7, 8, getenv("AMP_NET_TEST_BIND_ADDR4"), 1);
     router.addRoute(&bridge10, 10);
     amp::BridgeCall::initializeWhiteNoise();
+    bridge10.setLocalNodeNumber(getenv("AMP_NODE0_NUMBER"));
 
     // Setup the IAX line
     // IMPORTANT: The directed POKE feature is turned on here!

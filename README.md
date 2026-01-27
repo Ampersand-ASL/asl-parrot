@@ -97,7 +97,7 @@ Service Commands:
 
 # Environment Variables Used At Runtime
 
-    export AMP_NODE0_NUMBER=
+    export AMP_NODE0_NUMBER=61057
     export AMP_NODE0_PASSWORD=
     export AMP_IAX_PROTO=IPV4
     export AMP_IAX_PORT=4569
