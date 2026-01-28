@@ -29,6 +29,7 @@
 #include <cmath> 
 #include <queue>
 #include <thread>
+#include <sstream>
 
 // 3rd party
 #include <curl/curl.h>
@@ -141,6 +142,20 @@ int main(int argc, const char** argv) {
     router.addRoute(&bridge10, 10);
     amp::BridgeCall::initializeWhiteNoise();
     bridge10.setLocalNodeNumber(getenv("AMP_NODE0_NUMBER"));
+
+    if (getenv("AMP_PARROT_LEVEL_THRESHOLDS")) {
+        log.info("Parrot level thresholds: [%s]", getenv("AMP_PARROT_LEVEL_THRESHOLDS"));
+        std::vector<int> thresholdList;
+        // Parse comma-delimited list
+        string s(getenv("AMP_PARROT_LEVEL_THRESHOLDS"));
+        stringstream ss(s);
+        string token;
+        while (std::getline(ss, token, ',')) {
+            trim(token);
+            thresholdList.push_back(std::stoi(token));
+        }
+        bridge10.setParrotLevelThresholds(thresholdList);
+    }
 
     // Setup the IAX line
     // IMPORTANT: The directed POKE feature is turned on here!
