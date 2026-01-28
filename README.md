@@ -5,6 +5,10 @@ by [Bruce MacKinnon KC1FSZ](https://www.qrz.com/db/KC1FSZ).
 This parrot was inspired
 by the famous [Texas 55553 Parrot](https://mackinnon.info/ampersand/parrot-55553-notes) created by Patrick N2DYI.
 
+> [!Important]
+>
+> If you are looking for install instructions [start here](docs/parrot-deploy.md).
+
 # Capabilities
 
 * Basic record/playback.
@@ -22,6 +26,7 @@ provide the results of the network test for an arbitrary node.
 testing/characterizing audio hardware. The sweep is preceded 
 by an FSK signal for synchronizing test devices. 
 * DTMF 2 generates a fixed 440 Hz tone, 0.5 amplitude, 5 seconds. 
+* DTMF 3 generate 5 seconds of white noise.
 
 # Sweep Specifics
 
@@ -71,7 +76,7 @@ Making the package for the asl-parrot:
     debmake
     debuild
     # Move the package to the distribution area
-    cp /tmp/asl-parrot_$ASL_PARROT_VERSION-1_arm64.deb (distribution area)
+    scp bruce@pi5:/tmp/asl-parrot_${ASL_PARROT_VERSION}-1_arm64.deb (distribution area)
 
 Looking at the contents:
 
@@ -79,8 +84,8 @@ Looking at the contents:
 
 Installing from a .deb file:
 
-    wget https://mackinnon.info/ampersand/releases/asl-parrot_1.4-1_arm64.deb
-    sudo apt install ./asl-parrot_1.4-1_arm64.deb
+    wget https://mackinnon.info/ampersand/releases/asl-parrot_${AMP_PARROT_VERSION}-1_arm64.deb
+    sudo apt install ./asl-parrot_${AMP_PARROT_VERSION}-1_arm64.deb
 
 _(There may be a "Notice" displayed during the install related to a permission issue. This
 can safely be ignored.)_

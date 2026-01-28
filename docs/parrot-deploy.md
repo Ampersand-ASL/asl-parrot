@@ -80,11 +80,11 @@ Add the required Linux packages:
 
 Get the .deb file:
 
-    wget https://mackinnon.info/ampersand/releases/asl-parrot_1.4-1_arm64.deb
-
+    wget https://ampersand-asl.s3.us-west-1.amazonaws.com/releases/asl-parrot_1.5-1_arm64.deb
+    
 Install the package:
 
-    sudo apt install ./asl-parrot_1.4-1_arm64.deb
+    sudo apt install ./asl-parrot_1.5-1_arm64.deb
 
 NOTE: There may be a notice displayed that contains "permission denied." If this is 
 just a notice it can be ignored.
@@ -139,3 +139,22 @@ Example response (good case):
 Example response (bad case):
 
     {"ipv4":{"rc":-9,"status":"unreachable"}}
+
+# Audio Level Prompts
+
+The ASL parrot reports audio level in peak dBFS and average (RMS) dBFS. The "average"
+level is really the "maximum average" level across the samples.
+
+The audio level measurement ignores the first and last 300ms to avoid being confused
+by clicks/pops associated with key/unkey.
+
+A "laypersons" summary of the peak audio level is also provided. Because there are 
+so many opinions on this topic the thresholds are configurable via environment 
+variable. See this setting:
+
+    # These are the lower bounds of "very high", "high", "good", and "low".
+    # Anything below the last number is "very low".
+    AMP_PARROT_LEVEL_THRESHOLDS=-2,-5,-9,-12
+
+Note that each number represents the lower bound (inclusive) of the level. So -2dBFS
+is the lower bound fo the "very high" level. 
