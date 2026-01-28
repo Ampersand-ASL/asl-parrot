@@ -116,6 +116,11 @@ Service Commands:
     # Needs to be different from the interface accepting IAX connections
     # for the test to be fully effective
     export AMP_NET_TEST_BIND_ADDR4=0.0.0.0
+    # These parameter is used to set the parrot thresholds.
+    AMP_PARROT_LEVEL_MEASURE=DBFS_PEAK
+    # These are the lower bounds of "very high", "high", "good", and "low".
+    # Anything below the last number is "very low".
+    AMP_PARROT_LEVEL_THRESHOLDS=-2,-5,-9,-12
 
 # A Useful AWS Command
 
