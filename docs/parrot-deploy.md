@@ -157,4 +157,5 @@ variable. See this setting:
     AMP_PARROT_LEVEL_THRESHOLDS=-2,-5,-9,-12
 
 Note that each number represents the lower bound (inclusive) of the level. So -2dBFS
-is the lower bound fo the "very high" level. 
+is the lower bound of the "very high" level. Anything below -12dBFS will be considered
+"very low."
