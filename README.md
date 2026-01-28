@@ -51,6 +51,7 @@ Example response (bad case):
     git clone https://github.com/Ampersand-ASL/asl-parrot.git
     cd asl-parrot
     git submodule update --init
+    # Move the version number forward in src/main-parrot.cpp
     cmake -DCMAKE_INSTALL_PREFIX=/tmp -B build
     cmake --build build --target asl-parrot
     cmake --install build --component asl-parrot
@@ -59,10 +60,9 @@ Example response (bad case):
 
 Making the package for the asl-parrot:
 
-    # Move the version number forward in src/main-parrot.cpp
     # Update the change log (new entries at top)
     sudo apt install debmake debhelper
-    export ASL_PARROT_VERSION=1.4
+    export ASL_PARROT_VERSION=1.5
     cd asl-parrot
     scripts/make-source-tar-parrot.sh
     cd /tmp

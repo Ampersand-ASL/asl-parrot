@@ -1,8 +1,9 @@
 asl-parrot (1.5-1) UNRELEASED; urgency=low
 
   * Added a subjective assessment in "layperson's language" for 
-  the audio level.
-  * Cleared up some problems with 
+  the audio level. Pay close attention to etc/asl-parrot.env because
+  there are some new environment variables needed to make this work.
+  * Cleared up some problems with timed out connections.
       
  -- Bruce MacKinnon <bruce@mackinnon.com>  Tue, 20 Jan 2026 14:00:00 -0500
 asl-parrot (1.4-1) UNRELEASED; urgency=low
