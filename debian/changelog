@@ -4,6 +4,7 @@ asl-parrot (1.5-1) UNRELEASED; urgency=low
   the audio level. Pay close attention to etc/asl-parrot.env because
   there are some new environment variables needed to make this work.
   * Cleared up some problems with timed out connections.
+  * Added source addres and vesrion to the /network-test API endpoint.
       
  -- Bruce MacKinnon <bruce@mackinnon.com>  Tue, 20 Jan 2026 14:00:00 -0500
 
