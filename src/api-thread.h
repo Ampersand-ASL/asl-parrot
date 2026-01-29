@@ -21,7 +21,8 @@
 namespace kc1fsz {
     namespace amp {
 
-void apiLoop(Log* l, Clock* clock, int listenPort, const char* networkTestBindAddr);
+void apiLoop(Log* l, Clock* clock, int listenPort, const char* networkTestBindAddr,
+    const char* version);
 
     }
 }

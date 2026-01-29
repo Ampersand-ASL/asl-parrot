@@ -40,7 +40,8 @@ namespace kc1fsz {
 
     namespace amp {
 
-void apiLoop(Log* l, Clock* clock, int listenPort, const char* netTestBindAddr) {
+void apiLoop(Log* l, Clock* clock, int listenPort, const char* netTestBindAddr,
+    const char* version) {
 
     Log& log = *l;
 
@@ -52,7 +53,8 @@ void apiLoop(Log* l, Clock* clock, int listenPort, const char* netTestBindAddr) 
     httplib::Server svr;
 
     svr.Get("/network-test", 
-        [&log, clock, netTestBindAddr](const httplib::Request& req, httplib::Response &res) {
+        [&log, clock, netTestBindAddr, version]
+        (const httplib::Request& req, httplib::Response &res) {
             // Check for the Authorization header
             if (req.has_header("Authorization")) {
                 std::string authHeader = req.get_header_value("Authorization");
@@ -83,6 +85,12 @@ void apiLoop(Log* l, Clock* clock, int listenPort, const char* netTestBindAddr) 
                 }
                 json o0;
                 o0["ipv4"] = o1;
+                if (req.has_param("cookie")) {
+                    auto c = req.get_param_value("cookie");
+                    o0["cookie"] = c;
+                }
+                o0["calleraddr"] = req.remote_addr;
+                o0["version"] = version;
                 res.set_content(o0.dump(), "application/json");
             } 
             else {

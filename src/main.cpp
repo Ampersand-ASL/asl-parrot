@@ -65,22 +65,8 @@
 using namespace std;
 using namespace kc1fsz;
 
-static const char* VERSION = "20260128.0";
+static const char* VERSION = "20260128.1";
 static const char* DEFAULT_USER = "radio";
-
-/*
-Development:
-export AMP_NODE0_NUMBER=nnnnn
-export AMP_NODE0_PASSWORD=xxxxx
-export AMP_NODE0_MGR_PORT=5039
-export AMP_IAX_PROTO=IPV4
-export AMP_IAX_PORT=4569
-export AMP_IAX_AUTHMODE=OPEN
-export AMP_ASL_REG_URL=https://register.allstarlink.org
-export AMP_ASL_STAT_URL=http://stats.allstarlink.org/uhandler
-export AMP_ASL_DNS_ROOT=allstarlink.org
-export LD_LIBRARY_PATH=/home/admin/asl-parrot/build/libpiper-aarch64:/home/admin/asl-parrot/build/libpiper-aarch64/lib
-*/
 
 static void sigHandler(int sig);
 
@@ -181,7 +167,7 @@ int main(int argc, const char** argv) {
 
     // Setup the API thread
     std::thread apiThread(amp::apiLoop, &log, &clock, atoi(getenv("AMP_HTTP_PORT")),
-        getenv("AMP_NET_TEST_BIND_ADDR4"));
+        getenv("AMP_NET_TEST_BIND_ADDR4"), VERSION);
 
     // Main loop        
     Runnable2* tasks2[] = { &iax2Channel1, &bridge10, &router };
