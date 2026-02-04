@@ -1,10 +1,19 @@
+asl-parrot (1.6-1) UNRELEASED; urgency=low
+
+  * Per Jason N8EI, split the initial greeting into two parts to reduce
+  conflict with telemetry announcements.
+  * Tweaked coefficients of FIR filters to improve audio quality.
+  * Incorporated support for Talker ID telemetry messages.
+      
+ -- Bruce MacKinnon <bruce@mackinnon.com>  Tue, 20 Jan 2026 14:00:00 -0500
+
 asl-parrot (1.5-1) UNRELEASED; urgency=low
 
   * Added a subjective assessment in "layperson's language" for 
   the audio level. Pay close attention to etc/asl-parrot.env because
   there are some new environment variables needed to make this work.
   * Cleared up some problems with timed out connections.
-  * Added source addres and vesrion to the /network-test API endpoint.
+  * Added source address and version to the /network-test API endpoint.
       
  -- Bruce MacKinnon <bruce@mackinnon.com>  Tue, 20 Jan 2026 14:00:00 -0500
 

@@ -67,7 +67,7 @@ Making the package for the asl-parrot:
 
     # Update the change log (new entries at top)
     sudo apt install debmake debhelper
-    export ASL_PARROT_VERSION=1.5
+    export ASL_PARROT_VERSION=1.6
     cd asl-parrot
     scripts/make-source-tar-parrot.sh
     cd /tmp
@@ -92,7 +92,7 @@ can safely be ignored.)_
 
 Uninstall:
 
-    sudo apt remove ./asl-parrot_1.4-1_arm64.deb
+    sudo apt remove ./asl-parrot_1.6-1_arm64.deb
 
 Service Commands:
 
