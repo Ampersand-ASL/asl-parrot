@@ -65,8 +65,8 @@
 using namespace std;
 using namespace kc1fsz;
 
-static const char* VERSION = "20260202.0";
-static const char* DEFAULT_USER = "radio";
+static const char* VERSION = "20260204.0";
+static const char* PUBLIC_USER = "radio";
 
 static void sigHandler(int sig);
 
@@ -145,7 +145,7 @@ int main(int argc, const char** argv) {
 
     // Setup the IAX line
     // IMPORTANT: The directed POKE feature is turned on here!
-    LineIAX2 iax2Channel1(log, traceLog, clock, 1, router, 0, 0, 0, 10);
+    LineIAX2 iax2Channel1(log, traceLog, clock, 1, router, 0, 0, 0, 10, PUBLIC_USER);
     router.addRoute(&iax2Channel1, 1);
     //iax2Channel0.setTrace(true);
     iax2Channel1.setPrivateKey(getenv("AMP_PRIVATE_KEY"));
@@ -163,7 +163,7 @@ int main(int argc, const char** argv) {
     short addrFamily = getenv("AMP_IAX_PROTO") != 0 && 
         strcmp(getenv("AMP_IAX_PROTO"), "IPV6") == 0 ? AF_INET6 : AF_INET;
     // Open up the IAX2 network connection
-    iax2Channel1.open(addrFamily, atoi(getenv("AMP_IAX_PORT")), DEFAULT_USER);
+    iax2Channel1.open(addrFamily, atoi(getenv("AMP_IAX_PORT")));
 
     // Setup the API thread
     std::thread apiThread(amp::apiLoop, &log, &clock, atoi(getenv("AMP_HTTP_PORT")),
