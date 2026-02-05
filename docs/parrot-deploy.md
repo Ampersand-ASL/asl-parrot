@@ -80,11 +80,11 @@ Add the required Linux packages:
 
 Get the .deb file:
 
-    wget https://ampersand-asl.s3.us-west-1.amazonaws.com/releases/asl-parrot_1.5-1_arm64.deb
+    wget https://ampersand-asl.s3.us-west-1.amazonaws.com/releases/asl-parrot_1.6-1_arm64.deb
     
 Install the package:
 
-    sudo apt install ./asl-parrot_1.5-1_arm64.deb
+    sudo apt install ./asl-parrot_1.6-1_arm64.deb
 
 NOTE: There may be a notice displayed that contains "permission denied." If this is 
 just a notice it can be ignored.

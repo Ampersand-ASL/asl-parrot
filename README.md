@@ -85,7 +85,7 @@ Making the package for the asl-parrot:
 
 Looking at the contents:
 
-    dpkg -c asl-parrot_$ASL_PARROT_VERSION-1_arm64.deb 
+    dpkg -c asl-parrot_${ASL_PARROT_VERSION}-1_arm64.deb 
 
 Installing from a .deb file:
 
