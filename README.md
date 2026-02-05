@@ -65,10 +65,15 @@ Example response (bad case):
 
 Making the package for the asl-parrot:
 
-    # Update the change log (new entries at top)
-    sudo apt install debmake debhelper
+    # Requirements for build
+    sudo apt install debmake debhelper cmake build-essential git xxd libasound2-dev libcurl4-gnutls-dev Libusb-1.0-0-dev
     export ASL_PARROT_VERSION=1.6
+    # Pull the source
+    git clone https://github.com/Ampersand-ASL/asl-parrot.git
     cd asl-parrot
+    git submodule update --init
+    # Move the source down to /tmp for production of the tarball. This
+    # script also makes some tweaks to the source tree.
     scripts/make-source-tar-parrot.sh
     cd /tmp
     tar -xzmf asl-parrot-$ASL_PARROT_VERSION.tar.gz
