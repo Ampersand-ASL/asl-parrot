@@ -89,7 +89,7 @@ Install the package:
 NOTE: There may be a notice displayed that contains "permission denied." If this is 
 just a notice it can be ignored.
 
-**Before starting the service** make adjustments /usr/etc/asl-parrot.env file.
+**Before starting the service** make adjustments /etc/asl-parrot.env file.
 
 Add the secrets here:
 
