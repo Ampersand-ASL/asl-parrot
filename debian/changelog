@@ -5,7 +5,8 @@ asl-parrot (1.6-1) UNRELEASED; urgency=low
   * Tweaked coefficients of FIR filters to improve audio quality.
   * Incorporated support for Talker ID telemetry messages.
   * Added a farewell message when dropping line.
-      
+  * Moved files from /usr/etc to /etc.
+  
  -- Bruce MacKinnon <bruce@mackinnon.com>  Tue, 05 Feb 2026 14:00:00 -0500
 
 asl-parrot (1.5-1) UNRELEASED; urgency=low
