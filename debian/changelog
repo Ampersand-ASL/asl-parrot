@@ -1,3 +1,7 @@
+asl-parrot (NEXT) UNRELEASED; urgency=low
+
+  * Various performance optimizations in amp-core.
+
 asl-parrot (1.6-1) UNRELEASED; urgency=low
 
   * Per Jason N8EI, split the initial greeting into two parts to reduce
