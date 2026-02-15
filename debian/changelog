@@ -1,6 +1,7 @@
-asl-parrot (NEXT) UNRELEASED; urgency=low
+asl-parrot (1.7-1) UNRELEASED; urgency=low
 
   * Various performance optimizations in amp-core.
+  * Added daemon-reload to postint [Issue 1](https://github.com/Ampersand-ASL/asl-parrot/issues/1).
 
 asl-parrot (1.6-1) UNRELEASED; urgency=low
 

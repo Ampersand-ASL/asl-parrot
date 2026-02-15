@@ -62,10 +62,13 @@
 #include "service-thread.h"
 #include "api-thread.h"
 
+#define LINE_ID_IAX (1)
+#define LINE_ID_STATS (12)
+
 using namespace std;
 using namespace kc1fsz;
 
-static const char* VERSION = "20260209.0";
+static const char* VERSION = "20260215.0";
 static const char* PUBLIC_USER = "radio";
 
 static void sigHandler(int sig);
@@ -102,7 +105,7 @@ int main(int argc, const char** argv) {
 
     // Get the service thread running. This handles registration,
     // status, and the monitor.
-    std::thread serviceThread(service_thread, &log);
+    std::thread serviceThread(service_thread, &log, VERSION);
 
     // Setup the message router
     threadsafequeue2<MessageCarrier> respQueue;
@@ -129,7 +132,8 @@ int main(int argc, const char** argv) {
 
     // Setup the conference budget in Parrot mode
     amp::Bridge bridge10(log, traceLog, clock, router, amp::BridgeCall::Mode::PARROT, 
-        10, 7, 8, getenv("AMP_NET_TEST_BIND_ADDR4"), 1, bridgeCallSpace, MAX_CALLS);
+        10, 7, 8, getenv("AMP_NET_TEST_BIND_ADDR4"), LINE_ID_IAX, LINE_ID_STATS, 
+        bridgeCallSpace, MAX_CALLS);
     router.addRoute(&bridge10, 10);
     amp::BridgeCall::initializeWhiteNoise();
     bridge10.setLocalNodeNumber(getenv("AMP_NODE0_NUMBER"));

@@ -39,7 +39,7 @@
 using namespace std;
 using namespace kc1fsz;
 
-void service_thread(Log* l) {
+void service_thread(Log* l, const char* version) {
 
     amp::setThreadName("SVC");
 
@@ -51,7 +51,7 @@ void service_thread(Log* l) {
     registerTask.configure(getenv("AMP_ASL_REG_URL"), getenv("AMP_NODE0_NUMBER"), 
         getenv("AMP_NODE0_PASSWORD"), atoi(getenv("AMP_IAX_PORT")));
 
-    StatsTask statsTask(log, clock, "1.0.0");
+    StatsTask statsTask(log, clock, version);
     statsTask.configure(getenv("AMP_ASL_STAT_URL"), getenv("AMP_NODE0_NUMBER"));
 
     // Sleep waiting to change real-time status
@@ -61,6 +61,6 @@ void service_thread(Log* l) {
     amp::lowerThreadPriority();
 
     // Main loop        
-    Runnable2* tasks2[] = { &registerTask };
+    Runnable2* tasks2[] = { &registerTask, &statsTask };
     EventLoop::run(log, clock, 0, 0, tasks2, std::size(tasks2));
 }
