@@ -67,7 +67,7 @@ Making the package for the asl-parrot:
 
     # Requirements for build
     sudo apt install debmake debhelper cmake build-essential git xxd libasound2-dev libcurl4-gnutls-dev Libusb-1.0-0-dev
-    export ASL_PARROT_VERSION=1.6
+    export ASL_PARROT_VERSION=1.7
     # Pull the source
     git clone https://github.com/Ampersand-ASL/asl-parrot.git
     cd asl-parrot
@@ -97,7 +97,7 @@ can safely be ignored.)_
 
 Uninstall:
 
-    sudo apt remove ./asl-parrot_1.6-1_arm64.deb
+    sudo apt remove ./asl-parrot_1.7-1_arm64.deb
 
 Service Commands:
 

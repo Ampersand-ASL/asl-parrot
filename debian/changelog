@@ -2,6 +2,8 @@ asl-parrot (1.7-1) UNRELEASED; urgency=low
 
   * Various performance optimizations in amp-core.
   * Added daemon-reload to postint [Issue 1](https://github.com/Ampersand-ASL/asl-parrot/issues/1).
+  * Added support for the G.726 AAL2 CODEC
+  * Addressed some problems with the CODEC negotiation
 
 asl-parrot (1.6-1) UNRELEASED; urgency=low
 

@@ -62,19 +62,20 @@
 #include "service-thread.h"
 #include "api-thread.h"
 
+#define MAX_CALLS (8)
 #define LINE_ID_IAX (1)
+#define LINE_ID_BRIDGE (10)
 #define LINE_ID_STATS (12)
 
 using namespace std;
 using namespace kc1fsz;
 
-static const char* VERSION = "20260215.0";
+static const char* VERSION = "20260216.0";
 static const char* PUBLIC_USER = "radio";
 
 static void sigHandler(int sig);
 
 // Keep these large structures off the stack
-static const unsigned MAX_CALLS = 8;
 static amp::BridgeCall bridgeCallSpace[MAX_CALLS];
 static LineIAX2::Call iaxCallSpace[MAX_CALLS];
 
@@ -132,9 +133,10 @@ int main(int argc, const char** argv) {
 
     // Setup the conference budget in Parrot mode
     amp::Bridge bridge10(log, traceLog, clock, router, amp::BridgeCall::Mode::PARROT, 
-        10, 7, 8, getenv("AMP_NET_TEST_BIND_ADDR4"), LINE_ID_IAX, LINE_ID_STATS, 
+        LINE_ID_BRIDGE, 7, 
+        8, getenv("AMP_NET_TEST_BIND_ADDR4"), LINE_ID_IAX, LINE_ID_STATS, 
         bridgeCallSpace, MAX_CALLS);
-    router.addRoute(&bridge10, 10);
+    router.addRoute(&bridge10, LINE_ID_BRIDGE);
     amp::BridgeCall::initializeWhiteNoise();
     bridge10.setLocalNodeNumber(getenv("AMP_NODE0_NUMBER"));
 
@@ -154,7 +156,7 @@ int main(int argc, const char** argv) {
 
     // Setup the IAX line
     // IMPORTANT: The directed POKE feature is turned on here!
-    LineIAX2 iax2Channel1(log, traceLog, clock, 1, router, 0, 0, 0, 10, PUBLIC_USER,
+    LineIAX2 iax2Channel1(log, traceLog, clock, 1, router, 0, 0, 0, LINE_ID_BRIDGE, PUBLIC_USER,
         iaxCallSpace, MAX_CALLS);
     router.addRoute(&iax2Channel1, 1);
     //iax2Channel0.setTrace(true);
