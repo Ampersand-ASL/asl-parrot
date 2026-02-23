@@ -57,6 +57,7 @@
 #include "MultiRouter.h"
 #include "Poker.h"
 #include "TTSService.h"
+#include "QueueConsumer.h"
 
 // asl-parrot
 #include "service-thread.h"
@@ -64,13 +65,14 @@
 
 #define MAX_CALLS (8)
 #define LINE_ID_IAX (1)
+#define LINE_ID_TTS (7)
 #define LINE_ID_BRIDGE (10)
 #define LINE_ID_STATS (12)
 
 using namespace std;
 using namespace kc1fsz;
 
-static const char* VERSION = "20260216.0";
+static const char* VERSION = "20260223.0";
 static const char* PUBLIC_USER = "radio";
 
 static void sigHandler(int sig);
@@ -117,7 +119,7 @@ int main(int argc, const char** argv) {
     // This is hard-coded as line #7.
     threadsafequeue2<MessageCarrier> ttsReqQueue;
     QueueConsumer ttsConsumer7(ttsReqQueue);
-    router.addRoute(&ttsConsumer7, 7);
+    router.addRoute(&ttsConsumer7, LINE_ID_TTS);
     std::atomic<bool> ttsRun(true);
     std::thread ttsThread(amp::ttsLoop, &log, &ttsReqQueue, &respQueue, &ttsRun);
 
@@ -133,7 +135,7 @@ int main(int argc, const char** argv) {
 
     // Setup the conference budget in Parrot mode
     amp::Bridge bridge10(log, traceLog, clock, router, amp::BridgeCall::Mode::PARROT, 
-        LINE_ID_BRIDGE, 7, 
+        LINE_ID_BRIDGE, LINE_ID_TTS, 
         8, getenv("AMP_NET_TEST_BIND_ADDR4"), LINE_ID_IAX, LINE_ID_STATS, 
         bridgeCallSpace, MAX_CALLS);
     router.addRoute(&bridge10, LINE_ID_BRIDGE);
