@@ -134,8 +134,8 @@ int main(int argc, const char** argv) {
         &networkTestReqQueue, &respQueue, &netTestRun);
 
     // Setup the conference budget in Parrot mode
-    amp::Bridge bridge10(log, traceLog, clock, router, amp::BridgeCall::Mode::PARROT, 
-    //amp::Bridge bridge10(log, traceLog, clock, router, amp::BridgeCall::Mode::PROGRAM, 
+    //amp::Bridge bridge10(log, traceLog, clock, router, amp::BridgeCall::Mode::PARROT, 
+    amp::Bridge bridge10(log, traceLog, clock, router, amp::BridgeCall::Mode::PROGRAM, 
         LINE_ID_BRIDGE, LINE_ID_TTS, 
         8, getenv("AMP_NET_TEST_BIND_ADDR4"), LINE_ID_IAX, LINE_ID_STATS, 
         bridgeCallSpace, MAX_CALLS);
