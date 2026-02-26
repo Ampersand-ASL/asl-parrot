@@ -63,7 +63,7 @@
 #include "service-thread.h"
 #include "api-thread.h"
 
-#define MAX_CALLS (8)
+#define MAX_CALLS (64)
 #define LINE_ID_IAX (1)
 #define LINE_ID_TTS (7)
 #define LINE_ID_BRIDGE (10)
@@ -72,7 +72,7 @@
 using namespace std;
 using namespace kc1fsz;
 
-static const char* VERSION = "20260224.0";
+static const char* VERSION = "20260226.0";
 static const char* PUBLIC_USER = "radio";
 
 static void sigHandler(int sig);
@@ -134,8 +134,9 @@ int main(int argc, const char** argv) {
         &networkTestReqQueue, &respQueue, &netTestRun);
 
     // Setup the conference budget in Parrot mode
-    amp::Bridge bridge10(log, traceLog, clock, router, amp::BridgeCall::Mode::PARROT, 
-    //amp::Bridge bridge10(log, traceLog, clock, router, amp::BridgeCall::Mode::PROGRAM, 
+    amp::BridgeCall::Mode mode = (getenv("AMP_PROGRAM_ROOT") == 0) ? 
+        amp::BridgeCall::Mode::PARROT : amp::BridgeCall::Mode::PROGRAM;
+    amp::Bridge bridge10(log, traceLog, clock, router, mode,
         LINE_ID_BRIDGE, LINE_ID_TTS, 
         8, getenv("AMP_NET_TEST_BIND_ADDR4"), LINE_ID_IAX, LINE_ID_STATS, 
         bridgeCallSpace, MAX_CALLS);
