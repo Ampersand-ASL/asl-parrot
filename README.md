@@ -67,7 +67,7 @@ Making the package for the asl-parrot:
 
     # Requirements for build
     sudo apt install debmake debhelper cmake build-essential git xxd libasound2-dev libcurl4-gnutls-dev Libusb-1.0-0-dev
-    export ASL_PARROT_VERSION=1.7
+    export ASL_PARROT_VERSION=1.8
     # Pull the source
     git clone https://github.com/Ampersand-ASL/asl-parrot.git
     cd asl-parrot
@@ -97,7 +97,7 @@ can safely be ignored.)_
 
 Uninstall:
 
-    sudo apt remove ./asl-parrot_1.7-1_arm64.deb
+    sudo apt remove ./asl-parrot_1.8-1_arm64.deb
 
 Service Commands:
 
@@ -126,6 +126,9 @@ Service Commands:
     # These are the lower bounds of "very high", "high", "good", and "low".
     # Anything below the last number is "very low".
     AMP_PARROT_LEVEL_THRESHOLDS=-2,-5,-9,-12
+    # Uncomment this variable to turn on "program mode." This points to the root of the 
+    # program directory.
+    #export AMP_PROGRAM_ROOT=/home/bruce/program
 
 # A Useful AWS Command
 

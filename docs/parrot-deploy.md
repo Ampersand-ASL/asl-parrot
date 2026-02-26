@@ -159,3 +159,33 @@ variable. See this setting:
 Note that each number represents the lower bound (inclusive) of the level. So -2dBFS
 is the lower bound of the "very high" level. Anything below -12dBFS will be considered
 "very low."
+
+# Program Mode
+
+This was developed at the request of Patrick N2DYI. The feature is enabled
+using the AMP_PROGRAM_ROOT environment variable. This variable points 
+to the root of a program directory that contains a set of files that will be 
+played sequentially with interspersed breaks.
+
+The `announcements` sub-directory contains the intro, outro, and an arbitrary 
+number of break files. All of these files have the .txt extension and are 
+passed to the text-to-speach engine. The break files start with break0.txt.
+
+The `segments` sub-directory contains an aribtrary number of program segments.
+All of these files contain either 8K (.sln), 16K (.s16), or 48K .s48 linear PCM audio 
+(little endian format). The segments files start with seg0.sln.
+
+The program proceeds as follows:
+
+* The intro text is spoken.
+* There is a 15 second gap (unkeyed)
+* For each segment file found:
+  - The segment is played
+  - The next sequential break text is spoken.
+  - There is a 5 second gap (unkeyed)
+* The outro text is spoken.
+
+The break text files are recycled as needed. There can be fewer break files than 
+segment files.
+
+
