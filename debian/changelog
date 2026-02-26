@@ -3,12 +3,16 @@ asl-parrot (1.8-1) UNRELEASED; urgency=low
   * Added support for program mode, per Patrick N2DYI.
   * Corrected problems with SLIN 8K CODEC.
 
+ -- Bruce MacKinnon <bruce@mackinnon.com>  Tue, 26 Feb 2026 19:00:00 -0500
+
 asl-parrot (1.7-1) UNRELEASED; urgency=low
 
   * Various performance optimizations in amp-core.
   * Added daemon-reload to postint [Issue 1](https://github.com/Ampersand-ASL/asl-parrot/issues/1).
   * Added support for the G.726 AAL2 CODEC
   * Addressed some problems with the CODEC negotiation
+
+ -- Bruce MacKinnon <bruce@mackinnon.com>  Tue, 05 Feb 2026 14:00:00 -0500
 
 asl-parrot (1.6-1) UNRELEASED; urgency=low
 
