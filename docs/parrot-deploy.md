@@ -40,6 +40,8 @@ security rules they also need to be on different network interfaces.
 
 # Steps To Install
 
+## One-Time Machine Setup
+
 Network setup:
 * Put the instance in a VPC/subnet that has IPv6 addressing enabled.
 * Put the instance on a subnet that has an IPv6 route to the internet.
@@ -78,13 +80,15 @@ Add the required Linux packages:
     sudo apt -y upgrade
     sudo apt -y install net-tools build-essential gdb cmake git emacs-nox python3.13-venv wget 
 
+## Debian Package Install 
+
 Get the .deb file:
 
-    wget https://ampersand-asl.s3.us-west-1.amazonaws.com/releases/asl-parrot_1.7-1_arm64.deb
+    wget https://ampersand-asl.s3.us-west-1.amazonaws.com/releases/asl-parrot_1.8-1_arm64.deb
     
 Install the package:
 
-    sudo apt install ./asl-parrot_1.7-1_arm64.deb
+    sudo apt install ./asl-parrot_1.8-1_arm64.deb
 
 NOTE: There may be a notice displayed that contains "permission denied." If this is 
 just a notice it can be ignored.
@@ -98,14 +102,16 @@ Add the secrets here:
 
 Change the bind address used for network diagnostic testing to the INTERNAL
 IP address associated with the network interface that was setup for network
-diagnostics.
+diagnostics. Set this to 0.0.0.0 if you are not using this feature.
 
     # Network interface (IPv4) that is used to initiate network tests.
     # Needs to be different from the interface accepting IAX connections
-    # for the test to be fully effective
+    # for the test to be fully effective.
+    # (Set this to 0.0.0.0 if you are not using this feature)
     AMP_NET_TEST_BIND_ADDR4=172.31.23.91
 
-Adjust the HTTP listen port (internal VPC only) as needed:
+Adjust the HTTP listen port (internal VPC only) as needed. The 8080 default should 
+be fine for most purposes.
 
     AMP_HTTP_PORT=8080
 
@@ -169,9 +175,9 @@ played sequentially with interspersed breaks.
 
 The `announcements` sub-directory contains the intro, outro, and an arbitrary 
 number of break files. All of these files have the .txt extension and are 
-passed to the text-to-speach engine. The break files start with break0.txt.
+passed to the text-to-speech engine. The break files start with break0.txt.
 
-The `segments` sub-directory contains an aribtrary number of program segments.
+The `segments` sub-directory contains an arbitrary number of program segments.
 All of these files contain either 8K (.sln), 16K (.s16), or 48K .s48 linear PCM audio 
 (little endian format). The segments files start with seg0.sln.
 
