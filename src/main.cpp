@@ -58,6 +58,7 @@
 #include "Poker.h"
 #include "TTSService.h"
 #include "QueueConsumer.h"
+#include "LineParrot.h"
 
 // asl-parrot
 #include "service-thread.h"
@@ -68,11 +69,12 @@
 #define LINE_ID_TTS (7)
 #define LINE_ID_BRIDGE (10)
 #define LINE_ID_STATS (12)
+#define LINE_ID_PARROT (34)
 
 using namespace std;
 using namespace kc1fsz;
 
-static const char* VERSION = "20260226.0";
+static const char* VERSION = "20260303.0";
 static const char* PUBLIC_USER = "radio";
 
 static void sigHandler(int sig);
@@ -134,8 +136,9 @@ int main(int argc, const char** argv) {
         &networkTestReqQueue, &respQueue, &netTestRun);
 
     // Setup the conference budget in Parrot mode
-    amp::BridgeCall::Mode mode = (getenv("AMP_PROGRAM_ROOT") == 0) ? 
-        amp::BridgeCall::Mode::PARROT : amp::BridgeCall::Mode::PROGRAM;
+    //amp::BridgeCall::Mode mode = (getenv("AMP_PROGRAM_ROOT") == 0) ? 
+    //    amp::BridgeCall::Mode::PARROT : amp::BridgeCall::Mode::PROGRAM;
+    amp::BridgeCall::Mode mode = amp::BridgeCall::Mode::NORMAL;
     amp::Bridge bridge10(log, traceLog, clock, router, mode,
         LINE_ID_BRIDGE, LINE_ID_TTS, 
         8, getenv("AMP_NET_TEST_BIND_ADDR4"), LINE_ID_IAX, LINE_ID_STATS, 
@@ -185,8 +188,17 @@ int main(int argc, const char** argv) {
     std::thread apiThread(amp::apiLoop, &log, &clock, atoi(getenv("AMP_HTTP_PORT")),
         getenv("AMP_NET_TEST_BIND_ADDR4"), VERSION);
 
+    // This is a special-purpose line that is used if the conference-parrot is 
+    // enabled. Note that normally all parrot functionality is handled within 
+    // a BridgeCall (i.e. never gets to the Bridge), but in some cases it may
+    // be desired to have the parrot be a participant in the Bride conference.
+    // #### TODO ENABLE VARIABLE
+    amp::LineParrot parrot34(log, clock, LINE_ID_PARROT, router, LINE_ID_BRIDGE);
+    router.addRoute(&parrot34, LINE_ID_PARROT);
+    parrot34.open();
+
     // Main loop        
-    Runnable2* tasks2[] = { &iax2Channel1, &bridge10, &router };
+    Runnable2* tasks2[] = { &iax2Channel1, &bridge10, &router, &parrot34 };
     EventLoop::run(log, clock, 0, 0, tasks2, std::size(tasks2), nullptr, false);
 
     return 0;

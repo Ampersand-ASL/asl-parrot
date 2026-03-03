@@ -74,6 +74,7 @@ add_executable(asl-parrot
   amp-core/src/Poker.cpp
   amp-core/src/TTSService.cpp
   amp-core/src/ProgramUtils.cpp
+  amp-core/src/LineParrot.cpp
   kc1fsz-tools-cpp/src/Common.cpp
   kc1fsz-tools-cpp/src/NetUtils.cpp
   kc1fsz-tools-cpp/src/DTMFDetector2.cpp
