@@ -193,7 +193,7 @@ int main(int argc, const char** argv) {
     // a BridgeCall (i.e. never gets to the Bridge), but in some cases it may
     // be desired to have the parrot be a participant in the Bride conference.
     // #### TODO ENABLE VARIABLE
-    amp::LineParrot parrot34(log, clock, LINE_ID_PARROT, router, LINE_ID_BRIDGE);
+    amp::LineParrot parrot34(log, clock, LINE_ID_PARROT, router, LINE_ID_BRIDGE, LINE_ID_TTS);
     router.addRoute(&parrot34, LINE_ID_PARROT);
     parrot34.open();
 
