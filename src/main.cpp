@@ -97,7 +97,8 @@ int main(int argc, const char** argv) {
     log.info("KC1FSZ ASL Parrot");
     log.info("Powered by the Ampersand ASL Project https://github.com/Ampersand-ASL");
     log.info("Version %s", VERSION);
-    log.info("Bind interface for network tests: %s", getenv("AMP_NET_TEST_BIND_ADDR4"));
+    if (getenv("AMP_NET_TEST_BIND_ADDR4") != 0)
+        log.info("Bind interface for network tests: %s", getenv("AMP_NET_TEST_BIND_ADDR4"));
 
     StdClock clock;
     NullLog traceLog;
@@ -173,7 +174,11 @@ int main(int argc, const char** argv) {
     iax2Channel1.open(addrFamily, atoi(getenv("AMP_IAX_PORT")));
 
     // Setup the API thread
-    std::thread apiThread(amp::apiLoop, &log, &clock, atoi(getenv("AMP_HTTP_PORT")),
+    int apiPort = 0;
+    if (getenv("AMP_HTTP_PORT") != 0) {
+        apiPort = atoi(getenv("AMP_HTTP_PORT"));
+    }
+    std::thread apiThread(amp::apiLoop, &log, &clock, apiPort,
         getenv("AMP_NET_TEST_BIND_ADDR4"), VERSION);
 
     // This is a special-purpose line that is used if the conference-parrot is 

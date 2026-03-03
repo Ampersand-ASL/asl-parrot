@@ -44,8 +44,13 @@ void apiLoop(Log* l, Clock* clock, int listenPort, const char* netTestBindAddr,
     const char* version) {
 
     Log& log = *l;
-
     amp::setThreadName("API");
+
+    // If there is no listen port then exist the thread immediately
+    if (listenPort == 0) {
+        log.info("Not using API thread");
+        return;
+    }
     
     log.info("Start API thread (HTTP port is %d)", listenPort);
 
