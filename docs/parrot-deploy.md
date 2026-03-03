@@ -96,18 +96,23 @@ Add the secrets here:
     AMP_NODE0_NUMBER=nnnnn
     AMP_NODE0_PASSWORD=xxxx
 
-Change the bind address used for network diagnostic testing to the INTERNAL
-IP address associated with the network interface that was setup for network
-diagnostics.
+If the network test feature is being used set the bind address used for 
+network diagnostic testing to the INTERNAL IP address associated with the 
+network interface that was setup for network diagnostics.
 
     # Network interface (IPv4) that is used to initiate network tests.
     # Needs to be different from the interface accepting IAX connections
     # for the test to be fully effective
     AMP_NET_TEST_BIND_ADDR4=172.31.23.91
 
-Adjust the HTTP listen port (internal VPC only) as needed:
+If the network test is not being used do not set this variable.
+
+If the HTTP API is being used set the HTTP listen port (internal VPC only) 
+as needed:
 
     AMP_HTTP_PORT=8080
+
+If the HTTP API is not being used do not set this variable. 
 
 And then enable and start the service:
 
