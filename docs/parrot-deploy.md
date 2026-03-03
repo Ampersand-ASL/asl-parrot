@@ -1,22 +1,40 @@
-Instructions for deploying the ASL Parrot on AWS. These instructions
-are based on a manual deployment. Things will certainly be different for 
-a more automated process.
+# ASL Parrot Installation Guide
 
-# Some Assumptions I'm Making
+These are the instructions for deploying the ASL Parrot from a Debian
+package (.deb).
 
-* This is a low-volume, low-criticality application. There is no need to be doing
-load balancing across redundant copies, etc.
-* A single EC2 instance will be used.
-* Bruce will be able to redeploy the application independently until it is stable.
+This is experimental work that explores the potential of ASL linking 
+without the use of the Asterisk PBX system. [Project documentation is here](https://mackinnon.info/ampersand/). 
+
+Send comments/questions to Bruce MacKinnon (KC1FSZ) using the e-mail address in [QRZ](https://www.qrz.com/db/KC1FSZ).
 
 # Things You Need To Deploy
 
-These instructions assume you are starting from nothing except:
-* The URL of the .deb packages (get that from Bruce)
-* The ASL node number and password for the parrot node 
-* An AWS account with permissions to create an EC2 instance.
+These instructions assume you have:
+* A server to install on. All of the testing has been done on Debian 13
+using a machine with the arm64 architecture. 
+* The URL of the .deb packages (see below)
+* The ASL node number and password for your parrot node 
 
-# Special Network Setup Required
+There are notes below for deploying on AWS.
+
+# Steps To Install
+
+## Network Setup (IPv4)
+
+The network setup for the parrot is no different than was is needed for any other ASL 
+node. There are other detailed sources of information about ASL network configuration so 
+I won't repeat everything here. Bottom line:
+
+* If your parrot is public, make sure your server/node is setup correctly in the ASL portal.
+* Make sure you are clear on what IAX (UDP) port your node is using. For public parrots this
+assignment happens on the [ASL Portal](https://www.allstarlink.org/portal/servers.php). UDP port 4569 is the common default.
+* Make sure that your IAX port is opened/forwarded through your firewall/NAT system,
+if applicable.
+* Make sure that your IAX port is opened on any Linux/Windows firewall tools that are 
+running on your machine, if applicable.
+
+# Special Network Setup Required (Optional)
 
 This parrot has a network diagnostic feature that will attempt to 
 "call back" to a calling node to validate whether its firewall is opened 
@@ -38,9 +56,15 @@ assigned to the parrot instance, one for normal IAX activity and one for the sol
 purpose of network testing. Note that because these two address have different 
 security rules they also need to be on different network interfaces.  
 
-# Steps To Install
-
 ## One-Time Machine Setup
+
+Add the required Linux packages:
+
+    sudo apt update
+    sudo apt -y upgrade
+    sudo apt -y install net-tools wget curl
+
+## One-Time Machine Setup (Relevant for AWS Hosting)
 
 Network setup:
 * Put the instance in a VPC/subnet that has IPv6 addressing enabled.
@@ -74,28 +98,27 @@ If not created previously, get the public IPv4 address from the EC2 console. Use
 (The rest of the steps are executed on the new EC2 instance,
 all from the admin home directory.)
 
-Add the required Linux packages:
-
-    sudo apt update
-    sudo apt -y upgrade
-    sudo apt -y install net-tools build-essential gdb cmake git emacs-nox python3.13-venv wget 
-
 ## Debian Package Install 
 
 Get the .deb file:
 
-    wget https://ampersand-asl.s3.us-west-1.amazonaws.com/releases/asl-parrot_1.8-1_arm64.deb
+    wget https://ampersand-asl.s3.us-west-1.amazonaws.com/releases/asl-parrot_1.9-1_arm64.deb
     
 Install the package:
 
-    sudo apt install ./asl-parrot_1.8-1_arm64.deb
+    sudo apt install ./asl-parrot_1.9-1_arm64.deb
 
 NOTE: There may be a notice displayed that contains "permission denied." If this is 
 just a notice it can be ignored.
 
+## Environment Variable Configuration
+
+The parrot is configured using environment variables. Usually these are set
+in the `/etc/asl-parrot.env` file.
+
 **Before starting the service** make adjustments /etc/asl-parrot.env file.
 
-Add the secrets here:
+Add the secrets here using your ASL node number and password:
 
     AMP_NODE0_NUMBER=nnnnn
     AMP_NODE0_PASSWORD=xxxx
@@ -119,24 +142,35 @@ as needed:
 
 If the HTTP API is not being used do not set this variable. 
 
-And then enable and start the service:
+Normally each caller to the parrot operates independently and there is no 
+audio shared between callers. If you want "conference parrot" capability
+set `AMP_PARROT_MODE=CONFERENCE`. In this mode, all callers will be able
+to hear the record/play tests of all other callers. 
+
+After all environment variables are set enable and start the service:
 
     sudo systemctl enable asl-parrot
     sudo systemctl start asl-parrot
 
-Check the log:
+Then check the log for any errors:
 
     journalctl -u asl-parrot.service -f
 
-Check the network tests API using curl:
+If relevant, check the network tests API using curl:
 
-    curl http://localhost:8080/network-test?node=2002
+    curl http://localhost:8080/ping
 
 # Network Configuration
 
 ![Security Group](sg1.jpg)
 
 # Network Test API 
+
+This HTTP end-point is used to test IAX2 connectivity.
+
+Ping test:
+
+    curl http://asl-parrot:8080/ping
 
 Example request:
     
@@ -173,7 +207,7 @@ is the lower bound of the "very high" level. Anything below -12dBFS will be cons
 # Program Mode
 
 This was developed at the request of Patrick N2DYI. The feature is enabled
-using the AMP_PROGRAM_ROOT environment variable. This variable points 
+using the `AMP_PROGRAM_ROOT` environment variable. This variable points 
 to the root of a program directory that contains a set of files that will be 
 played sequentially with interspersed breaks.
 
@@ -197,5 +231,3 @@ The program proceeds as follows:
 
 The break text files are recycled as needed. There can be fewer break files than 
 segment files.
-
-

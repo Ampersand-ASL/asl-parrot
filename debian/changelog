@@ -1,3 +1,10 @@
+asl-parrot (1.9-1) UNRELEASED; urgency=low
+
+  * Added AMP_PARROT_MODE=CONFERENCE mode to allow parrot testing to occur
+  in conference (i.e. everyone hears everyone's parrot sessions).
+
+ -- Bruce MacKinnon <bruce@mackinnon.com>  Tue, 03 Mar 2026 19:00:00 -0500
+
 asl-parrot (1.8-1) UNRELEASED; urgency=low
 
   * Added support for program mode, per Patrick N2DYI.

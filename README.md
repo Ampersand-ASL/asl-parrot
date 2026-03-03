@@ -37,6 +37,10 @@ increments. 100ms at each frequency.
 
 # Network Test API
 
+Ping:
+
+    curl asl-parrot:8080/ping
+
 Example request:
     
     curl asl-parrot:8080/network-test?node=2002
@@ -67,7 +71,7 @@ Making the package for the asl-parrot:
 
     # Requirements for build
     sudo apt install debmake debhelper cmake build-essential git xxd libasound2-dev libcurl4-gnutls-dev Libusb-1.0-0-dev
-    export ASL_PARROT_VERSION=1.8
+    export ASL_PARROT_VERSION=1.9
     # Pull the source
     git clone https://github.com/Ampersand-ASL/asl-parrot.git
     cd asl-parrot
@@ -97,7 +101,7 @@ can safely be ignored.)_
 
 Uninstall:
 
-    sudo apt remove ./asl-parrot_1.8-1_arm64.deb
+    sudo apt remove ./asl-parrot_1.9-1_arm64.deb
 
 Service Commands:
 
@@ -129,6 +133,9 @@ Service Commands:
     # Uncomment this variable to turn on "program mode." This points to the root of the 
     # program directory.
     #export AMP_PROGRAM_ROOT=/home/bruce/program
+    # Uncomment this to join the parrot into the conference so that everyone
+    # can hear the recording/playback
+    #export AMP_PARROT_MODE=CONFERENCE
 
 # A Useful AWS Command
 
