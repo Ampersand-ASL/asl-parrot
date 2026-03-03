@@ -1,0 +1,18 @@
+{
+    "folders": [
+        {
+            "path": "asl-parrot"
+        },
+        {
+            "path": "../../tmp/program"
+        }
+    ],
+    "settings": {
+		"workbench.colorCustomizations": {
+			"statusBar.background": "red", // General background color
+			"statusBar.foreground": "#FFFFFF", // Text color
+			"statusBar.noFolderBackground": "#222225", // Color when no folder is open
+			"statusBar.debuggingBackground": "#511f1f" // Color when debugging
+		}
+    }
+}
