@@ -57,6 +57,14 @@ void apiLoop(Log* l, Clock* clock, int listenPort, const char* netTestBindAddr,
     // HTTP
     httplib::Server svr;
 
+    svr.Get("/ping", 
+        []
+        (const httplib::Request& req, httplib::Response &res) {
+            const char* msg = "Running\r\n";
+            res.set_content((const char*)msg, strlen(msg), "text/plain");
+        }
+    );
+
     svr.Get("/network-test", 
         [&log, clock, netTestBindAddr, version]
         (const httplib::Request& req, httplib::Response &res) {
