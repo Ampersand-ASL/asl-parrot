@@ -136,30 +136,18 @@ int main(int argc, const char** argv) {
         &networkTestReqQueue, &respQueue, &netTestRun);
 
     // Setup the conference budget in Parrot mode
-    //amp::BridgeCall::Mode mode = (getenv("AMP_PROGRAM_ROOT") == 0) ? 
-    //    amp::BridgeCall::Mode::PARROT : amp::BridgeCall::Mode::PROGRAM;
-    amp::BridgeCall::Mode mode = amp::BridgeCall::Mode::NORMAL;
+    const amp::BridgeCall::Mode mode = (getenv("AMP_PROGRAM_ROOT") == 0) ? 
+        amp::BridgeCall::Mode::PARROT : amp::BridgeCall::Mode::PROGRAM;
+    const bool parrotConference = getenv("AMP_PARROT_MODE") != 0 &&
+        strcmp("CONFERENCE", getenv("AMP_PARROT_MODE")) == 0;
+
     amp::Bridge bridge10(log, traceLog, clock, router, mode,
         LINE_ID_BRIDGE, LINE_ID_TTS, 
         8, getenv("AMP_NET_TEST_BIND_ADDR4"), LINE_ID_IAX, LINE_ID_STATS, 
-        bridgeCallSpace, MAX_CALLS);
+        bridgeCallSpace, MAX_CALLS, parrotConference);
     router.addRoute(&bridge10, LINE_ID_BRIDGE);
     amp::BridgeCall::initializeWhiteNoise();
     bridge10.setLocalNodeNumber(getenv("AMP_NODE0_NUMBER"));
-
-    if (getenv("AMP_PARROT_LEVEL_THRESHOLDS")) {
-        log.info("Parrot level thresholds: [%s]", getenv("AMP_PARROT_LEVEL_THRESHOLDS"));
-        std::vector<int> thresholdList;
-        // Parse comma-delimited list
-        string s(getenv("AMP_PARROT_LEVEL_THRESHOLDS"));
-        stringstream ss(s);
-        string token;
-        while (std::getline(ss, token, ',')) {
-            trim(token);
-            thresholdList.push_back(std::stoi(token));
-        }
-        bridge10.setParrotLevelThresholds(thresholdList);
-    }
 
     // Setup the IAX line
     // IMPORTANT: The directed POKE feature is turned on here!
@@ -195,7 +183,24 @@ int main(int argc, const char** argv) {
     // #### TODO ENABLE VARIABLE
     amp::LineParrot parrot34(log, clock, LINE_ID_PARROT, router, LINE_ID_BRIDGE, LINE_ID_TTS);
     router.addRoute(&parrot34, LINE_ID_PARROT);
-    parrot34.open();
+    if (parrotConference)
+        parrot34.open(); 
+
+    // Configuration parameter - line thresholds.
+    if (getenv("AMP_PARROT_LEVEL_THRESHOLDS")) {
+        log.info("Parrot level thresholds: [%s]", getenv("AMP_PARROT_LEVEL_THRESHOLDS"));
+        std::vector<int> thresholdList;
+        // Parse comma-delimited list
+        string s(getenv("AMP_PARROT_LEVEL_THRESHOLDS"));
+        stringstream ss(s);
+        string token;
+        while (std::getline(ss, token, ',')) {
+            trim(token);
+            thresholdList.push_back(std::stoi(token));
+        }
+        bridge10.setParrotLevelThresholds(thresholdList);
+        parrot34.setParrotLevelThresholds(thresholdList);
+    }
 
     // Main loop        
     Runnable2* tasks2[] = { &iax2Channel1, &bridge10, &router, &parrot34 };
