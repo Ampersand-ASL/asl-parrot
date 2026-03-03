@@ -22,7 +22,7 @@ There are notes below for deploying on AWS.
 
 ## Network Setup (IPv4)
 
-The network setup for the parrot is no different than was is needed for any other ASL 
+The network setup for the parrot is no different than what is needed for any other ASL 
 node. There are other detailed sources of information about ASL network configuration so 
 I won't repeat everything here. Bottom line:
 
@@ -145,7 +145,8 @@ If the HTTP API is not being used do not set this variable.
 Normally each caller to the parrot operates independently and there is no 
 audio shared between callers. If you want "conference parrot" capability
 set `AMP_PARROT_MODE=CONFERENCE`. In this mode, all callers will be able
-to hear the record/play tests of all other callers. 
+to hear the record/play tests of all other callers, except for the initial 
+greeting which can only be heard by the caller.
 
 After all environment variables are set enable and start the service:
 
