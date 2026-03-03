@@ -40,6 +40,8 @@ security rules they also need to be on different network interfaces.
 
 # Steps To Install
 
+## One-Time Machine Setup
+
 Network setup:
 * Put the instance in a VPC/subnet that has IPv6 addressing enabled.
 * Put the instance on a subnet that has an IPv6 route to the internet.
@@ -78,13 +80,15 @@ Add the required Linux packages:
     sudo apt -y upgrade
     sudo apt -y install net-tools build-essential gdb cmake git emacs-nox python3.13-venv wget 
 
+## Debian Package Install 
+
 Get the .deb file:
 
-    wget https://ampersand-asl.s3.us-west-1.amazonaws.com/releases/asl-parrot_1.7-1_arm64.deb
+    wget https://ampersand-asl.s3.us-west-1.amazonaws.com/releases/asl-parrot_1.8-1_arm64.deb
     
 Install the package:
 
-    sudo apt install ./asl-parrot_1.7-1_arm64.deb
+    sudo apt install ./asl-parrot_1.8-1_arm64.deb
 
 NOTE: There may be a notice displayed that contains "permission denied." If this is 
 just a notice it can be ignored.
@@ -101,8 +105,8 @@ network diagnostic testing to the INTERNAL IP address associated with the
 network interface that was setup for network diagnostics.
 
     # Network interface (IPv4) that is used to initiate network tests.
-    # Needs to be different from the interface accepting IAX connections
-    # for the test to be fully effective
+    # Needs to be DIFFERENT from the interface accepting IAX connections
+    # for the test to be fully effective.
     AMP_NET_TEST_BIND_ADDR4=172.31.23.91
 
 If the network test is not being used do not set this variable.
@@ -110,6 +114,7 @@ If the network test is not being used do not set this variable.
 If the HTTP API is being used set the HTTP listen port (internal VPC only) 
 as needed:
 
+    # Set this to enable the HTTP API feature
     AMP_HTTP_PORT=8080
 
 If the HTTP API is not being used do not set this variable. 
@@ -164,3 +169,33 @@ variable. See this setting:
 Note that each number represents the lower bound (inclusive) of the level. So -2dBFS
 is the lower bound of the "very high" level. Anything below -12dBFS will be considered
 "very low."
+
+# Program Mode
+
+This was developed at the request of Patrick N2DYI. The feature is enabled
+using the AMP_PROGRAM_ROOT environment variable. This variable points 
+to the root of a program directory that contains a set of files that will be 
+played sequentially with interspersed breaks.
+
+The `announcements` sub-directory contains the intro, outro, and an arbitrary 
+number of break files. All of these files have the .txt extension and are 
+passed to the text-to-speech engine. The break files start with break0.txt.
+
+The `segments` sub-directory contains an arbitrary number of program segments.
+All of these files contain either 8K (.sln), 16K (.s16), or 48K .s48 linear PCM audio 
+(little endian format). The segments files start with seg0.sln.
+
+The program proceeds as follows:
+
+* The intro text is spoken.
+* There is a 15 second gap (unkeyed)
+* For each segment file found:
+  - The segment is played
+  - The next sequential break text is spoken.
+  - There is a 5 second gap (unkeyed)
+* The outro text is spoken.
+
+The break text files are recycled as needed. There can be fewer break files than 
+segment files.
+
+
