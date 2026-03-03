@@ -26,7 +26,7 @@ add_compile_options(-fstack-protector-all -Wall -Wpedantic -g)
 # complexity of building it on the fly.
 # TODO: Figure out how to remove this.
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}/include
-  COMMAND wget https://mackinnon.info/ampersand/releases/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}.tar.gz -O ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}.tar.gz
+  COMMAND wget https://ampersand-asl.s3.us-west-1.amazonaws.com/releases/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}.tar.gz -O ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}.tar.gz
   COMMAND ${CMAKE_COMMAND} -E tar xf ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}.tar.gz
   COMMENT "Unpacking libpiper"
   VERBATIM
