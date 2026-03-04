@@ -116,21 +116,21 @@ target_include_directories(asl-parrot PRIVATE json/include)
 target_include_directories(asl-parrot PRIVATE g726-codec/src)
 
 # The untared libpiper
-target_include_directories(asl-parrot PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}/include)
+target_include_directories(asl-parrot PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/libpiper/include)
 # TODO: REMOVE
 target_include_directories(asl-parrot PRIVATE amp-core/src)
 target_link_libraries(asl-parrot -lcurl)
-target_link_directories(asl-parrot PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR})
-target_link_directories(asl-parrot PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}/lib)
+target_link_directories(asl-parrot PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/libpiper)
+target_link_directories(asl-parrot PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/libpiper/lib)
 target_link_libraries(asl-parrot -lpiper -lonnxruntime)
 
 # Installation 
 install(TARGETS asl-parrot RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin COMPONENT asl-parrot)
 
 # Files needed for Piper TTS
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}/libpiper.so DESTINATION ${CMAKE_INSTALL_PREFIX}/lib COMPONENT asl-parrot)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}/lib/libonnxruntime.so.1 DESTINATION ${CMAKE_INSTALL_PREFIX}/lib COMPONENT asl-parrot)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}/lib/libonnxruntime.so.1.22.0 DESTINATION ${CMAKE_INSTALL_PREFIX}/lib COMPONENT asl-parrot)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libpiper/libpiper.so DESTINATION ${CMAKE_INSTALL_PREFIX}/lib COMPONENT asl-parrot)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libpiper/lib/libonnxruntime.so.1 DESTINATION ${CMAKE_INSTALL_PREFIX}/lib COMPONENT asl-parrot)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libpiper/lib/libonnxruntime.so.1.22.0 DESTINATION ${CMAKE_INSTALL_PREFIX}/lib COMPONENT asl-parrot)
 
 # ----- test-voice -----------------------------------------------------------
 
