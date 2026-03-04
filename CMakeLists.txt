@@ -33,23 +33,6 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYST
 )
 add_custom_target(libpiper_untar DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}/include)
 
-# This is the voice file we use (Amy, low quality)
-#add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/en_US-amy-low.onnx ${CMAKE_CURRENT_BINARY_DIR}/en_US-amy-low.onnx.json
-#  COMMAND wget https://mackinnon.info/ampersand/releases/en_US-amy-low.onnx -O ${CMAKE_CURRENT_BINARY_DIR}/en_US-amy-low.onnx
-#  COMMAND wget https://mackinnon.info/ampersand/releases/en_US-amy-low.onnx.json -O ${CMAKE_CURRENT_BINARY_DIR}/en_US-amy-low.onnx.json
-#  COMMENT "Fetching voice"
-#  VERBATIM
-#)
-#add_custom_target(piper_voice DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/en_US-amy-low.onnx ${CMAKE_CURRENT_BINARY_DIR}/en_US-amy-low.onnx.json)
-
-add_custom_command(OUTPUT en_US-amy-low.onnx en_US-amy-low.onnx.json
-  COMMAND wget https://mackinnon.info/ampersand/releases/en_US-amy-low.onnx -O en_US-amy-low.onnx
-  COMMAND wget https://mackinnon.info/ampersand/releases/en_US-amy-low.onnx.json -O en_US-amy-low.onnx.json
-  COMMENT "Fetching voice"
-  VERBATIM
-)
-add_custom_target(piper_voice DEPENDS en_US-amy-low.onnx en_US-amy-low.onnx.json)
-
 # ----- ASL Parrot (Network) --------------------------------------------------
 
 add_executable(asl-parrot
@@ -110,7 +93,6 @@ add_executable(asl-parrot
   g726-codec/src/g726_32.c
 )
 add_dependencies(asl-parrot libpiper_untar)
-add_dependencies(asl-parrot piper_voice)
 
 target_include_directories(asl-parrot PRIVATE src)
 target_include_directories(asl-parrot PRIVATE include)

@@ -56,7 +56,7 @@ Example response (bad case):
 # Building ASL Parrot With Install
 
     # Make sure you have all the packages needed to build
-    sudo apt install cmake build-essential git xxd libasound2-dev libcurl4-gnutls-dev Libusb-1.0-0-dev
+    sudo apt install cmake build-essential git xxd libasound2-dev libcurl4-gnutls-dev Libusb-1.0-0-dev emacs-nox
     git clone https://github.com/Ampersand-ASL/asl-parrot.git
     cd asl-parrot
     git submodule update --init

@@ -1,6 +1,6 @@
 # ASL Parrot Installation Guide
 
-These are the instructions for deploying the ASL Parrot from a Debian
+These are the instructions for deploying the Ampersand ASL Parrot from a Debian
 package (.deb).
 
 This is experimental work that explores the potential of ASL linking 
