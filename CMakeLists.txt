@@ -128,7 +128,6 @@ add_executable(test-voice EXCLUDE_FROM_ALL
   src/demos/test-voice.cpp
 )
 add_dependencies(test-voice libpiper_untar)
-add_dependencies(test-voice piper_voice)
 
 target_include_directories(test-voice PRIVATE src)
 target_include_directories(test-voice PRIVATE include)
