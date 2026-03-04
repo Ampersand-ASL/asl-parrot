@@ -96,6 +96,11 @@ Installing from a .deb file:
     wget https://mackinnon.info/ampersand/releases/asl-parrot_${AMP_PARROT_VERSION}-1_arm64.deb
     sudo apt install ./asl-parrot_${AMP_PARROT_VERSION}-1_arm64.deb
 
+Or:
+
+    wget https://mackinnon.info/ampersand/releases/asl-parrot_${AMP_PARROT_VERSION}-1_amd64.deb
+    sudo apt install ./asl-parrot_${AMP_PARROT_VERSION}-1_amd64.deb
+
 _(There may be a "Notice" displayed during the install related to a permission issue. This
 can safely be ignored.)_
 
