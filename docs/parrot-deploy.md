@@ -12,7 +12,7 @@ Send comments/questions to Bruce MacKinnon (KC1FSZ) using the e-mail address in 
 
 These instructions assume you have:
 * A server to install on. All of the testing has been done on Debian 13
-using a machine with the arm64 architecture. 
+using machines with the arm64 and x86_64 architectures. 
 * The URL of the .deb packages (see below)
 * The ASL node number and password for your parrot node 
 
@@ -83,7 +83,7 @@ IAM Setup:
 later when you want to run AWS CLI commands.
 
 Create an EC2 instance:
-* Debian 13, arm-64 using t4g-micro instance type.
+* Debian 13, arm-64 using t4g-micro instance type or x86_64 using the t3.medium instance type.
 * If you don't already have a keypair, create one called "parrot-1"
 * If necessary, download the private half of the keypair to ~/.ssh/parrot-1.pem so that you can log in using SSH.
 * Accept the default EBS size of 8G.
