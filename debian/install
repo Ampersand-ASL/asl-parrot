@@ -2,4 +2,4 @@ etc/asl-parrot.env etc
 etc/asl-parrot.service etc
 build/en_US-amy-low.onnx etc
 build/en_US-amy-low.onnx.json etc
-build/libpiper-aarch64/espeak-ng-data etc
+build/libpiper/espeak-ng-data etc
