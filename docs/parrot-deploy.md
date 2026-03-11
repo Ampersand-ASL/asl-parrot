@@ -100,18 +100,18 @@ all from the admin home directory.)
 
 ## Debian Package Install 
 
-Get the .deb file using one of these (depending on platform):
+Get the .deb file using one of these, depending on platform:
 
-    wget https://ampersand-asl.s3.us-west-1.amazonaws.com/releases/asl-parrot_1.9-1_arm64.deb
-    wget https://ampersand-asl.s3.us-west-1.amazonaws.com/releases/asl-parrot_1.9-1_amd64.deb
+    wget https://ampersand-asl.s3.us-west-1.amazonaws.com/releases/asl-parrot_1.10-1_arm64.deb
+    wget https://ampersand-asl.s3.us-west-1.amazonaws.com/releases/asl-parrot_1.10-1_amd64.deb
     
-Install the package (depending on platform):
+Install the package using one of these commands, depending on platform:
 
-    sudo apt install ./asl-parrot_1.9-1_arm64.deb
-    sudo apt install ./asl-parrot_1.9-1_amd64.deb
+    sudo apt install ./asl-parrot_1.10-1_arm64.deb
+    sudo apt install ./asl-parrot_1.10-1_amd64.deb
 
 NOTE: There may be a notice displayed that contains "permission denied." If this is 
-just a notice it can be ignored.
+just a notice it can safely be ignored.
 
 ## Environment Variable Configuration
 
