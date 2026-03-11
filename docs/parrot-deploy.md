@@ -111,7 +111,10 @@ Install the package using one of these commands, depending on platform:
     sudo apt install ./asl-parrot_1.10-1_amd64.deb
 
 NOTE: There may be a notice displayed that contains "permission denied." If this is 
-just a notice it can safely be ignored.
+just a notice it can safely be ignored. This is related to a known behavior of the
+`apt` command for manually-downloaded .db files. This is the notice message I see:
+
+    Notice: Download is performed unsandboxed as root as file '/home/admin/asl-parrot_1.10-1_amd64.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
 
 ## Environment Variable Configuration
 
