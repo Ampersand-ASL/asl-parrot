@@ -10,9 +10,3 @@ if ! getent passwd "${USER_NAME}" >/dev/null; then
         --disabled-password \
         --gecos "ASL Parrot Application User" "${USER_NAME}"
 fi
-
-# Because we're dropping in new/updated .service files:
-deb-systemd-invoke daemon-reload 
-
-# Optional: Set permissions or ownership for directories/files if needed
-# chown -R "${USER_NAME}:${GROUP_NAME}" /var/lib/myapp
