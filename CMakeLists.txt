@@ -78,6 +78,7 @@ add_executable(asl-parrot
   itu-g711-codec/src/codec.cpp
   itu-g711-codec/src/Plc.cpp
   cmsis-dsp-mock/src/main.cpp
+  cmsis-dsp-mock/src/main-float.cpp
   ed25519/src/add_scalar.c
   ed25519/src/ge.c
   ed25519/src/keypair.c
