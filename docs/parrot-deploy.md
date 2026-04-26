@@ -102,13 +102,13 @@ all from the admin home directory.)
 
 Get the .deb file using one of these, depending on platform:
 
-    wget https://ampersand-asl.s3.us-west-1.amazonaws.com/releases/asl-parrot_1.10-1_arm64.deb
-    wget https://ampersand-asl.s3.us-west-1.amazonaws.com/releases/asl-parrot_1.10-1_amd64.deb
+    wget https://ampersand-asl.s3.us-west-1.amazonaws.com/releases/asl-parrot_1.11-1_arm64.deb
+    wget https://ampersand-asl.s3.us-west-1.amazonaws.com/releases/asl-parrot_1.11-1_amd64.deb
     
 Install the package using one of these commands, depending on platform:
 
-    sudo apt install ./asl-parrot_1.10-1_arm64.deb
-    sudo apt install ./asl-parrot_1.10-1_amd64.deb
+    sudo apt install ./asl-parrot_1.11-1_arm64.deb
+    sudo apt install ./asl-parrot_1.11-1_amd64.deb
 
 NOTE: There may be a notice displayed that contains "permission denied." If this is 
 just a notice it can safely be ignored. This is related to a known behavior of the
@@ -222,8 +222,8 @@ number of break files. All of these files have the .txt extension and are
 passed to the text-to-speech engine. The break files start with break0.txt.
 
 The `segments` sub-directory contains an arbitrary number of program segments.
-All of these files contain either 8K (.sln), 16K (.s16), or 48K .s48 linear PCM audio 
-(little endian format). The segments files start with seg0.sln.
+All of these files contain either 8K (.sln), 16K (.s16), or 48K (.s48) linear PCM 
+mono audio in little endian format. The segments files start with seg0.
 
 The program proceeds as follows:
 

@@ -25,13 +25,12 @@ add_compile_options(-fstack-protector-all -Wall -Wpedantic -g)
 # A pre-build version of the libpiper run-time has been created to avoid the 
 # complexity of building it on the fly.
 # TODO: Figure out how to remove this.
-add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}/include
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/libpiper/include
   COMMAND wget https://ampersand-asl.s3.us-west-1.amazonaws.com/releases/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}.tar.gz -O ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}.tar.gz
   COMMAND ${CMAKE_COMMAND} -E tar xf ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}.tar.gz
-  COMMENT "Unpacking libpiper"
   VERBATIM
 )
-add_custom_target(libpiper_untar DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/libpiper-${CMAKE_HOST_SYSTEM_PROCESSOR}/include)
+add_custom_target(libpiper_untar DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/libpiper/include)
 
 # ----- ASL Parrot (Network) --------------------------------------------------
 
