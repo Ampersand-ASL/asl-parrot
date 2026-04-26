@@ -27,6 +27,7 @@ testing/characterizing audio hardware. The sweep is preceded
 by an FSK signal for synchronizing test devices. 
 * DTMF 2 generates a fixed 440 Hz tone, 0.5 amplitude, 5 seconds. 
 * DTMF 3 generate 5 seconds of white noise.
+* Supports a pre-recorded program mode.
 
 # Sweep Specifics
 
@@ -71,7 +72,7 @@ Making the package for the asl-parrot:
 
     # Requirements for build
     sudo apt install debmake debhelper cmake build-essential git xxd libasound2-dev libcurl4-gnutls-dev Libusb-1.0-0-dev
-    export ASL_PARROT_VERSION=1.10
+    export ASL_PARROT_VERSION=1.11
     # Pull the source
     git clone https://github.com/Ampersand-ASL/asl-parrot.git
     cd asl-parrot
@@ -106,7 +107,7 @@ can safely be ignored.)_
 
 Uninstall:
 
-    sudo apt remove ./asl-parrot_1.10-1_arm64.deb
+    sudo apt remove ./asl-parrot_1.11-1_arm64.deb
 
 Service Commands:
 
