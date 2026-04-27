@@ -77,6 +77,9 @@ Making the package for the asl-parrot:
     git clone https://github.com/Ampersand-ASL/asl-parrot.git
     cd asl-parrot
     git submodule update --init
+    # IMPORTANT!! 
+    # Update debian/changelog for new version.
+    # IMPORTANT!! 
     # Move the source down to /tmp for production of the tarball. This
     # script also makes some tweaks to the source tree.
     scripts/make-source-tar-parrot.sh
