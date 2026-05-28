@@ -74,7 +74,7 @@
 using namespace std;
 using namespace kc1fsz;
 
-static const char* VERSION = "20260426.0";
+static const char* VERSION = "20260528.0";
 static const char* PUBLIC_USER = "radio";
 
 static void sigHandler(int sig);
@@ -145,6 +145,8 @@ int main(int argc, const char** argv) {
     amp::Bridge bridge10(log, traceLog, clock, router, mode,
         LINE_ID_BRIDGE, LINE_ID_TTS, 
         8, getenv("AMP_NET_TEST_BIND_ADDR4"), LINE_ID_IAX, LINE_ID_STATS, 
+        // Not using simple TTS
+        0,
         bridgeCallSpace, MAX_CALLS, parrotConference);
     router.addRoute(&bridge10, LINE_ID_BRIDGE);
     amp::BridgeCall::initializeWhiteNoise();
@@ -152,19 +154,25 @@ int main(int argc, const char** argv) {
 
     // Setup the IAX line
     // IMPORTANT: The directed POKE feature is turned on here!
-    LineIAX2 iax2Channel1(log, traceLog, clock, 1, router, 0, 0, 0, LINE_ID_BRIDGE, PUBLIC_USER,
+    LineIAX2 iax2Channel1(log, traceLog, clock, 1, router, 0, 0, 
+        // Not using LocalRegistry
+        0, 
+        // Not using LocalAuthenticator
+        0, LINE_ID_BRIDGE, PUBLIC_USER,
         iaxCallSpace, MAX_CALLS);
     router.addRoute(&iax2Channel1, 1);
     //iax2Channel0.setTrace(true);
     iax2Channel1.setPrivateKey(getenv("AMP_PRIVATE_KEY"));
-    iax2Channel1.setDNSRoot(getenv("AMP_ASL_DNS_ROOT"));
+    iax2Channel1.setASLDNSRoot(getenv("AMP_ASL_DNS_ROOT"));
     if (getenv("AMP_IAX_AUTHMODE")) {
-        if (strcmp(getenv("AMP_IAX_AUTHMODE"), "OPEN") == 0) 
-            iax2Channel1.setAuthMode(LineIAX2::AuthMode::OPEN);
-        else if (strcmp(getenv("AMP_IAX_AUTHMODE"), "SOURCE_IP") == 0) 
-            iax2Channel1.setAuthMode(LineIAX2::AuthMode::SOURCE_IP);
-        else if (strcmp(getenv("AMP_IAX_AUTHMODE"), "CHALLENGE_ED25519") == 0) 
-            iax2Channel1.setAuthMode(LineIAX2::AuthMode::CHALLENGE_ED25519);
+        if (strcmp(getenv("AMP_IAX_AUTHMODE"), "OPEN") == 0) {
+            iax2Channel1.setAuthenticationRequired(false);
+            iax2Channel1.setAuthenticationChecked(true);
+        }
+        else if (strcmp(getenv("AMP_IAX_AUTHMODE"), "REQUIRED") == 0) {
+            iax2Channel1.setAuthenticationRequired(true);
+            iax2Channel1.setAuthenticationChecked(true);
+        }
     }
 
     // Determine the address family, defaulting to IPv4

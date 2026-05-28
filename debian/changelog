@@ -1,3 +1,11 @@
+asl-parrot (1.12-1) UNRELEASED; urgency=low
+
+  * Upgraded to latest amp-core to pick up IAX2 protocol problems pointed
+  out by Patrick N2DYI.
+  * Now including support for ED25519 public key authentication.
+  
+ -- Bruce MacKinnon <bruce@mackinnon.com>  Tue, 28 May 2026 19:00:00 -0500
+
 asl-parrot (1.11-1) UNRELEASED; urgency=low
 
   * Changed audio file format to mono for the parrot program mode.

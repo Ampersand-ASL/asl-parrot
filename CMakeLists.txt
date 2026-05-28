@@ -40,14 +40,15 @@ add_executable(asl-parrot
   src/api-thread.cpp
   amp-core/src/EventLoop.cpp
   amp-core/src/Message.cpp
-  amp-core/src/Line.cpp
-  amp-core/src/LineIAX2.cpp
   amp-core/src/IAX2FrameFull.cpp
   amp-core/src/IAX2Util.cpp
+  amp-core/src/Line.cpp
+  amp-core/src/LineIAX2.cpp
+  amp-core/src/LineIAX2_base.cpp
+  amp-core/src/LineParrot.cpp
   amp-core/src/RegisterTask.cpp
   amp-core/src/StatsTask.cpp
   amp-core/src/ManagerTask.cpp
-  amp-core/src/RetransmissionBufferStd.cpp
   amp-core/src/Transcoder_G711_ULAW.cpp
   amp-core/src/Transcoder_SLIN_48K.cpp
   amp-core/src/Transcoder_SLIN_16K.cpp
@@ -64,8 +65,8 @@ add_executable(asl-parrot
   amp-core/src/Poker.cpp
   amp-core/src/TTSService.cpp
   amp-core/src/ProgramUtils.cpp
-  amp-core/src/LineParrot.cpp
   kc1fsz-tools-cpp/src/Common.cpp
+  kc1fsz-tools-cpp/src/TaggedBuffer.cpp
   kc1fsz-tools-cpp/src/NetUtils.cpp
   kc1fsz-tools-cpp/src/DTMFDetector2.cpp
   kc1fsz-tools-cpp/src/MicroDNS.cpp

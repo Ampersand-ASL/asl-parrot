@@ -72,7 +72,7 @@ Making the package for the asl-parrot:
 
     # Requirements for build
     sudo apt install debmake debhelper cmake build-essential git xxd libasound2-dev libcurl4-gnutls-dev Libusb-1.0-0-dev
-    export ASL_PARROT_VERSION=1.11
+    export ASL_PARROT_VERSION=1.12
     # Pull the source
     git clone https://github.com/Ampersand-ASL/asl-parrot.git
     cd asl-parrot

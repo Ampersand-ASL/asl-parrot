@@ -107,8 +107,8 @@ Get the .deb file using one of these, depending on platform:
     
 Install the package using one of these commands, depending on platform:
 
-    sudo apt install ./asl-parrot_1.11-1_arm64.deb
-    sudo apt install ./asl-parrot_1.11-1_amd64.deb
+    sudo apt install ./asl-parrot_1.12-1_arm64.deb
+    sudo apt install ./asl-parrot_1.12-1_amd64.deb
 
 NOTE: There may be a notice displayed that contains "permission denied." If this is 
 just a notice it can safely be ignored. This is related to a known behavior of the
