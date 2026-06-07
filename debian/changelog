@@ -1,3 +1,9 @@
+asl-parrot (1.13-1) UNRELEASED; urgency=low
+
+  * Latest build made for Frans J69DS.
+
+ -- Bruce MacKinnon <bruce@mackinnon.com>  Tue, 07 Jun 2026 19:00:00 -0500
+
 asl-parrot (1.12-1) UNRELEASED; urgency=low
 
   * Upgraded to latest amp-core to pick up IAX2 protocol problems pointed

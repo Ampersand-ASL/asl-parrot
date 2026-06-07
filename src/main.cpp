@@ -74,7 +74,7 @@
 using namespace std;
 using namespace kc1fsz;
 
-static const char* VERSION = "20260528.0";
+static const char* VERSION = "20260607.0";
 static const char* PUBLIC_USER = "radio";
 
 static void sigHandler(int sig);
