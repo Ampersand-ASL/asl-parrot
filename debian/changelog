@@ -1,8 +1,10 @@
 asl-parrot (1.14-1) UNRELEASED; urgency=low
 
   * Addressed a problem reported by Patrick N2DYI. HamVOIP nodes will
-  automatically re-initiate a call following a HANGUP that lacks a 
-  CAUSECODE of 16 ("normal clearing"). HANGUP now includes this code.
+  automatically re-initiate a call following a HANGUP. Now sending a 
+  TEXT !!DISCONNECT!! message to initiate a hangup operation.
+  * Added CAUSECODE of 16 ("normal clearing") to the HANGUP message.
+  * Turned off TALKERID text message to quiet down logs.
 
  -- Bruce MacKinnon <bruce@mackinnon.com>  Tue, 07 Jun 2026 19:00:00 -0500
 
