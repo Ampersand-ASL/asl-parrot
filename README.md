@@ -56,8 +56,12 @@ Example response (bad case):
 
 # Building ASL Parrot With Install
 
+This is the procedure used when you want to build directly from source. This is 
+slower than installing the pre-packaged system, but it allows you to use the 
+latest source code.
+
     # Make sure you have all the packages needed to build
-    sudo apt install cmake build-essential git xxd libasound2-dev libcurl4-gnutls-dev Libusb-1.0-0-dev emacs-nox
+    sudo apt install -y cmake build-essential git xxd libasound2-dev libcurl4-gnutls-dev Libusb-1.0-0-dev emacs-nox
     git clone https://github.com/Ampersand-ASL/asl-parrot.git
     cd asl-parrot
     git submodule update --init
@@ -97,20 +101,20 @@ Looking at the contents:
 
 Installing from a .deb file:
 
-    wget https://mackinnon.info/ampersand/releases/asl-parrot_${AMP_PARROT_VERSION}-1_arm64.deb
-    sudo apt install ./asl-parrot_${AMP_PARROT_VERSION}-1_arm64.deb
+    wget https://ampersand-asl.s3.us-west-1.amazonaws.com/releases/asl-parrot_${ASL_PARROT_VERSION}-1_arm64.deb
+    sudo apt install ./asl-parrot_${ASL_PARROT_VERSION}-1_arm64.deb
 
 Or:
 
-    wget https://mackinnon.info/ampersand/releases/asl-parrot_${AMP_PARROT_VERSION}-1_amd64.deb
-    sudo apt install ./asl-parrot_${AMP_PARROT_VERSION}-1_amd64.deb
+    wget https://ampersand-asl.s3.us-west-1.amazonaws.com/releases/asl-parrot_${ASL_PARROT_VERSION}-1_amd64.deb
+    sudo apt install ./asl-parrot_${ASL_PARROT_VERSION}-1_amd64.deb
 
 _(There may be a "Notice" displayed during the install related to a permission issue. This
 can safely be ignored.)_
 
 Uninstall:
 
-    sudo apt remove ./asl-parrot_1.13-1_arm64.deb
+    sudo apt remove asl-parrot
 
 Service Commands:
 

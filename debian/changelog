@@ -1,6 +1,15 @@
+asl-parrot (1.14-1) UNRELEASED; urgency=low
+
+  * Addressed a problem reported by Patrick N2DYI. HamVOIP nodes will
+  automatically re-initiate a call following a HANGUP that lacks a 
+  CAUSECODE of 16 ("normal clearing"). HANGUP now includes this code.
+
+ -- Bruce MacKinnon <bruce@mackinnon.com>  Tue, 07 Jun 2026 19:00:00 -0500
+
 asl-parrot (1.13-1) UNRELEASED; urgency=low
 
   * Latest build made for Frans J69DS.
+  * Shorted DNS timeout on IAX connection, stopped re-transmit of NEW message.
 
  -- Bruce MacKinnon <bruce@mackinnon.com>  Tue, 07 Jun 2026 19:00:00 -0500
 

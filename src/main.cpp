@@ -74,7 +74,7 @@
 using namespace std;
 using namespace kc1fsz;
 
-static const char* VERSION = "20260607.0";
+static const char* VERSION = "20260608.0";
 static const char* PUBLIC_USER = "radio";
 
 static void sigHandler(int sig);
@@ -154,13 +154,13 @@ int main(int argc, const char** argv) {
 
     // Setup the IAX line
     // IMPORTANT: The directed POKE feature is turned on here!
-    LineIAX2 iax2Channel1(log, traceLog, clock, 1, router, 0, 0, 
+    LineIAX2 iax2Channel1(log, traceLog, clock, LINE_ID_IAX, router, 0, 0, 
         // Not using LocalRegistry
         0, 
         // Not using LocalAuthenticator
         0, LINE_ID_BRIDGE, PUBLIC_USER,
         iaxCallSpace, MAX_CALLS);
-    router.addRoute(&iax2Channel1, 1);
+    router.addRoute(&iax2Channel1, LINE_ID_IAX);
     //iax2Channel0.setTrace(true);
     iax2Channel1.setPrivateKey(getenv("AMP_PRIVATE_KEY"));
     iax2Channel1.setASLDNSRoot(getenv("AMP_ASL_DNS_ROOT"));
@@ -174,6 +174,9 @@ int main(int argc, const char** argv) {
             iax2Channel1.setAuthenticationChecked(true);
         }
     }
+
+    if (getenv("AMP_IAX_CAPTURE") != 0)
+        iax2Channel1.setCapture(true);
 
     // Determine the address family, defaulting to IPv4
     short addrFamily = getenv("AMP_IAX_PROTO") != 0 && 
