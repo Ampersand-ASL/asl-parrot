@@ -11,7 +11,8 @@ ARG OS
 # prebuilt libpiper runtime and the Piper voice/espeak data.
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get -y install \
 	apt-utils build-essential devscripts fakeroot debhelper git lsb-release \
-	libdistro-info-perl ca-certificates wget \
+	libterm-readline-gnu-perl libterm-readline-perl-perl libdistro-info-perl \
+	ca-certificates wget \
 	cmake libasound2-dev libcurl4-gnutls-dev adduser \
 	--no-install-recommends
 
