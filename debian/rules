@@ -4,3 +4,9 @@
 # build with CMake rather than auto-detecting the Makefile.
 %:
 	dh $@ --buildsystem=cmake
+
+# Don't enable the service on install: /etc/asl-parrot.env has to be set up
+# first (see docs/parrot-deploy.md). On upgrade, debhelper reloads systemd
+# and restarts the service if the admin has enabled it.
+override_dh_installsystemd:
+	dh_installsystemd --no-enable

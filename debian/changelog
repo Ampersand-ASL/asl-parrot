@@ -6,6 +6,9 @@ asl-parrot (20261121.0-1) UNRELEASED; urgency=low
   asl-node-auth-check clients report "unreachable" instead of
   "not registered".
   * Added "make podman-deb" to build the package in a container.
+  * postinst now runs systemctl daemon-reload and restarts asl-parrot on
+  upgrade (if enabled), via the debhelper systemd snippets. The service is
+  still not enabled on a fresh install.
 
  -- Jason McCormick <jason@mfamily.org>  Sat, 21 Nov 2026 12:00:00 -0500
 
