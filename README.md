@@ -52,7 +52,7 @@ Example response (good case):
 
 Example response (bad case):
 
-    {"ipv4":{"rc":-9,"status":"unreachable"}}
+    {"ipv4":{"rc":-13,"status":"unreachable"}}
 
 # Building ASL Parrot With Install
 
@@ -65,10 +65,26 @@ latest source code.
     git clone https://github.com/Ampersand-ASL/asl-parrot.git
     cd asl-parrot
     git submodule update --init
-    # Move the version number forward in src/main-parrot.cpp
+    # Move the VERSION forward in src/main.cpp
     cmake -DCMAKE_INSTALL_PREFIX=/tmp -B build
     cmake --build build --target asl-parrot
     cmake --install build --component asl-parrot
+
+# Building the Debian Package with Podman
+
+Builds the package in a clean Debian container (no publishing):
+
+    sudo apt install podman
+    git submodule update --init
+    make podman-deb
+
+The package is written to `../_debs/` as
+`asl-parrot_<VERSION>-1.deb<NN>_<arch>.deb`, for the host's architecture
+(amd64 or arm64). The version comes from VERSION in `src/main.cpp`, and the
+top entry of `debian/changelog` must match it. `builder/localbuild.sh`
+takes options for the Debian release (`-o`), architecture (`-a`; building
+the other architecture needs `qemu-user-static` and is slow) and container
+engine (`-e`).
 
 # Debian Package Notes
 
@@ -76,13 +92,16 @@ Making the package for the asl-parrot:
 
     # Requirements for build
     sudo apt install debmake debhelper cmake build-essential git xxd libasound2-dev libcurl4-gnutls-dev Libusb-1.0-0-dev
-    export ASL_PARROT_VERSION=1.14
     # Pull the source
     git clone https://github.com/Ampersand-ASL/asl-parrot.git
     cd asl-parrot
     git submodule update --init
+    # The version is VERSION in src/main.cpp.
+    export ASL_PARROT_VERSION=$(scripts/parrot-version.sh)
     # IMPORTANT!! 
-    # Update debian/changelog for new version.
+    # Add a matching entry at the top of debian/changelog, e.g.
+    # "dch -v ${ASL_PARROT_VERSION}-1". The script below stops if the two
+    # disagree.
     # IMPORTANT!! 
     # Move the source down to /tmp for production of the tarball. This
     # script also makes some tweaks to the source tree.

@@ -1,2 +1,16 @@
 build/
 etc/dev.env
+# Debian package build output
+obj-*/
+debian/asl-parrot/
+debian/.debhelper/
+debian/files
+debian/debhelper-build-stamp
+debian/*.substvars
+debian/*.debhelper
+debian/*.debhelper.log
+debian/changelog.save
+# Piper files downloaded by scripts/fetch-piper-etc.sh
+etc/en_US-amy-low.onnx
+etc/en_US-amy-low.onnx.json
+etc/espeak-ng-data/

@@ -1,3 +1,6 @@
 #!/usr/bin/make -f
+
+# The top-level Makefile only holds packaging helpers, so tell debhelper to
+# build with CMake rather than auto-detecting the Makefile.
 %:
-	dh $@
+	dh $@ --buildsystem=cmake

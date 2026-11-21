@@ -88,9 +88,15 @@ void apiLoop(Log* l, Clock* clock, int listenPort, const char* netTestBindAddr,
                     status = "unreachable";
                 else 
                     status = "unknown";
+                // Older asl-node-auth-check clients (asl3 package) treat
+                // rc == -9 as "not registered" regardless of status, which
+                // hides the common broken-port-forward case (POKE timeout).
+                // Report the timeout as -13 so those clients fall through
+                // to the "unreachable" handling.
+                int apiCode = (r.code == -9) ? -13 : r.code;
                 json o1;
                 o1["status"] = status;
-                o1["rc"] = r.code;
+                o1["rc"] = apiCode;
                 if (r.code == 0) {
                     o1["addr"] = r.addr4;
                     o1["port"] = r.port;
