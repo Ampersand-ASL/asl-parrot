@@ -188,7 +188,7 @@ Example response (good case):
 
 Example response (bad case):
 
-    {"ipv4":{"rc":-9,"status":"unreachable"}}
+    {"ipv4":{"rc":-13,"status":"unreachable"}}
 
 # Audio Level Prompts
 

@@ -2,7 +2,7 @@ Source: asl-parrot
 Section: hamradio
 Priority: optional
 Maintainer:  Bruce MacKinnon <bruce@mackinnon.com>
-Build-Depends: cmake, debhelper-compat (= 13), libasound2-dev, libcurl4-gnutls-dev, adduser
+Build-Depends: cmake, debhelper-compat (= 13), libasound2-dev, libcurl4-gnutls-dev, adduser, wget, ca-certificates
 Standards-Version: 4.5.1
 Homepage: https://github.com/brucemack/microlink2
 Rules-Requires-Root: no

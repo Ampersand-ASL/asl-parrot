@@ -1,3 +1,17 @@
+asl-parrot (20261121.0-1) UNRELEASED; urgency=low
+
+  * Package version now comes from VERSION in src/main.cpp; the packaging
+  scripts refuse to build if debian/changelog disagrees.
+  * /network-test now reports a POKE timeout as rc -13 (was -9) so older
+  asl-node-auth-check clients report "unreachable" instead of
+  "not registered".
+  * Added "make podman-deb" to build the package in a container.
+  * postinst now runs systemctl daemon-reload and restarts asl-parrot on
+  upgrade (if enabled), via the debhelper systemd snippets. The service is
+  still not enabled on a fresh install.
+
+ -- Jason McCormick <jason@mfamily.org>  Sat, 21 Nov 2026 12:00:00 -0500
+
 asl-parrot (1.14-1) UNRELEASED; urgency=low
 
   * Addressed a problem reported by Patrick N2DYI. HamVOIP nodes will

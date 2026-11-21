@@ -10,3 +10,8 @@ if ! getent passwd "${USER_NAME}" >/dev/null; then
         --disabled-password \
         --gecos "ASL Parrot Application User" "${USER_NAME}"
 fi
+
+# debhelper inserts the systemd handling here (see dh_installsystemd in
+# debian/rules): systemctl daemon-reload, then restart asl-parrot on
+# upgrade if it is enabled.
+#DEBHELPER#
